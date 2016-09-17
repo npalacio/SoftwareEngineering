@@ -4,9 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Notifications</title>
 </head>
 <body>
+<ul>
+	<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
+	<li><a href="${pageContext.request.contextPath}/MyBooks">MyBooks</a></li>
+	<li><a href="${pageContext.request.contextPath}/Notifications">Notifications</a></li>
+	<li><a href="${pageContext.request.contextPath}/ContactUs">ContactUs</a></li>
+</ul>
 <h1>This is the notifications page</h1>
 </body>
 </html>

@@ -7,6 +7,12 @@
 <title>BooksOutForHarambe</title>
 </head>
 <body>
+<ul>
+	<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
+	<li><a href="${pageContext.request.contextPath}/MyBooks">MyBooks</a></li>
+	<li><a href="${pageContext.request.contextPath}/Notifications">Notifications</a></li>
+	<li><a href="${pageContext.request.contextPath}/ContactUs">ContactUs</a></li>
+</ul>
 <h1>This is the Home page</h1>
 </body>
 </html>
