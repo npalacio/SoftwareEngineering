@@ -3,39 +3,57 @@ package models;
 //This class will model a 'trade' object that will be created when someone proposes a trade
 public class Trade {
 	
-	private Book book;
-	private String seller;
-	private double price;
+	private User sender;
+	private User recipient;
+	private Book senderBook;
+	private Book recipientBook;
+	private boolean accepted;
 	
-	public Trade(Book book, String seller, double price) {
-		this.book = book;
-		this.seller = seller;
-		this.price = price;
+	public Trade(User s, User r, Book sBook, Book rBook){
+		this.sender = s;
+		this.recipient = r;
+		this.senderBook = sBook;
+		this.recipientBook = rBook;
+	}
+	public User getSender() {
+		return sender;
 	}
 
-	public Book getBook() {
-		return book;
+	public void setSender(User sender) {
+		this.sender = sender;
 	}
 
-	public void setBook(Book book) {
-		this.book = book;
+	public User getRecipient() {
+		return recipient;
 	}
 
-	public String getSeller() {
-		return seller;
+	public void setRecipient(User recipient) {
+		this.recipient = recipient;
 	}
 
-	public void setSeller(String seller) {
-		this.seller = seller;
+	public Book getSenderBook() {
+		return senderBook;
 	}
 
-	public double getPrice() {
-		return price;
+	public void setSenderBook(Book senderBook) {
+		this.senderBook = senderBook;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public Book getRecipientBook() {
+		return recipientBook;
 	}
-	
-	
+
+	public void setRecipientBook(Book recipientBook) {
+		this.recipientBook = recipientBook;
+	}
+
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
+
+
 }

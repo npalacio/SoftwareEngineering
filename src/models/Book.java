@@ -8,6 +8,7 @@ public class Book {
 	private String publisher;
 	private String date;
 	private int ISBN;
+	private User owner;
 	
 	public Book(String name, String author, String publisher, String date, int ISBN) {
 		this.name = name;
