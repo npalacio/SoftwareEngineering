@@ -1,18 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>BooksOutForHarambe</title>
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-<ul>
-	<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
-	<li><a href="${pageContext.request.contextPath}/MyBooks">MyBooks</a></li>
-	<li><a href="${pageContext.request.contextPath}/Notifications">Notifications</a></li>
-	<li><a href="${pageContext.request.contextPath}/ContactUs">ContactUs</a></li>
-</ul>
-<h1>This is the Home page</h1>
+	<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">BooksOutForHarambe</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
+			<li><a href="${pageContext.request.contextPath}/MyBooks">My Books</a></li>
+			<li><a href="${pageContext.request.contextPath}/Notifications">Notifications</a></li>
+			<li><a href="${pageContext.request.contextPath}/ContactUs">Contact Us</a></li>
+		</ul>
+	</div>
+	</nav>
+	<h1>This is the Home page</h1>
+	<h3>Here we will display the current book listings in a table with the ability to click and purchase a book or to propose a 
+	trade for a book.
+	</h3>
 </body>
+
+
 </html>
