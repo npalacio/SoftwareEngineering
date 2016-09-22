@@ -9,6 +9,7 @@ public class Book {
 	private String date;
 	private int ISBN;
 	private User owner;
+	private boolean isAvailable;
 	
 	public Book(String name, String author, String publisher, String date, int ISBN) {
 		this.name = name;
