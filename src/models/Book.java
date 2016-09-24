@@ -3,7 +3,7 @@ package models;
 //This is the class to model a book
 public class Book {
 
-	private String name;
+	private String title;
 	private String author;
 	private String publisher;
 	private String date;
@@ -11,20 +11,16 @@ public class Book {
 	private User owner;
 	private boolean isAvailable;
 	
-	public Book(String name, String author, String publisher, String date, int ISBN) {
-		this.name = name;
-		this.author = author;
-		this.publisher = publisher;
-		this.date = date;
-		this.ISBN = ISBN;
+	public Book() {
+		
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getAuthor() {
@@ -57,6 +53,22 @@ public class Book {
 
 	public void setISBN(int iSBN) {
 		ISBN = iSBN;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public boolean isAvailable() {
+		return isAvailable;
+	}
+
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 	
 	
