@@ -1,5 +1,21 @@
 @CHARSET "utf-8";
+.contactUsDiv{
+	width: 70%;
+	margin: auto;
+	align-items: center;
+	text-align: center;
+}
+.contactUsDiv table{
+	margin: auto;
+}
 .footer{
-	border: 2px solid black;
-	text: inline;
+	text-align: center;
+	line-height: 15px;
+	border-top: 2px solid #A5ACB5;
+	border-bottom: 2px solid #A5ACB5;
+	width: 90%;
+	margin: auto;
+	margin-bottom: 10px;
+	font-size: small;
+	padding-top: 5px;
 }
