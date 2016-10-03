@@ -3,16 +3,22 @@ package models;
 //This is the class to model a book
 public class Book {
 
+	private User owner;
 	private String title;
 	private String author;
 	private String publisher;
-	private String date;
+	private int year;
 	private int ISBN;
-	private User owner;
 	private boolean isAvailable;
 	
-	public Book() {
-		
+	public Book(User owner, String title, String author, String publisher, int year, int isbn, boolean isAvailable) {
+		this.owner = owner;
+		this.title = title;
+		this.author= author;
+		this.publisher = publisher;
+		this.year = year;
+		this.ISBN = isbn;
+		this.isAvailable = isAvailable;
 	}
 
 	public String getTitle() {
@@ -39,12 +45,12 @@ public class Book {
 		this.publisher = publisher;
 	}
 
-	public String getDate() {
-		return date;
+	public int getYear() {
+		return year;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setyear(int year) {
+		this.year = year;
 	}
 
 	public int getISBN() {
