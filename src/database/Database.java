@@ -103,6 +103,7 @@ public class Database {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+		disposePS(ps);
 		disposePS(ps2);
 		disposeConn(conn);
 		return availableBooks;
@@ -123,10 +124,11 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-
-	public static void main(String args[]){
-		for(Book book : getAvailableBooks()){
-			System.out.println("Book title: " + book.getTitle());
-		}
-	}
+	
+	//Main method for testing purposes
+//	public static void main(String args[]){
+//		for(Book book : getAvailableBooks()){
+//			System.out.println("Book owner: " + book.getOwner().getName());
+//		}
+//	}
 }
