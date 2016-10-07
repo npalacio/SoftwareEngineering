@@ -1,5 +1,7 @@
 package models;
 
+import java.math.BigInteger;
+
 //This is the class to model a book
 public class Book {
 
@@ -8,10 +10,10 @@ public class Book {
 	private String author;
 	private String publisher;
 	private int year;
-	private int ISBN;
+	private long ISBN;
 	private boolean isAvailable;
 	
-	public Book(User owner, String title, String author, String publisher, int year, int isbn, boolean isAvailable) {
+	public Book(User owner, String title, String author, String publisher, int year, long isbn, boolean isAvailable) {
 		this.owner = owner;
 		this.title = title;
 		this.author= author;
@@ -53,11 +55,11 @@ public class Book {
 		this.year = year;
 	}
 
-	public int getISBN() {
+	public long getISBN() {
 		return ISBN;
 	}
 
-	public void setISBN(int iSBN) {
+	public void setISBN(long iSBN) {
 		ISBN = iSBN;
 	}
 
