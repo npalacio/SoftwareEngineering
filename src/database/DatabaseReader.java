@@ -1,5 +1,6 @@
 package database;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,8 @@ public class DatabaseReader {
 		List<Book> availableBooks = new LinkedList<Book>();
 		User user = null;
 		int ownerID = 0;
-		int year, ISBN = 0;
+		int year = 0;
+		long ISBN = 0;
 		String title, author, publisher = null;
 		try{
 			//Open a connection
@@ -39,7 +41,7 @@ public class DatabaseReader {
 				//Get the book information
 				ownerID = rs.getInt("OwnerID");
 				year = rs.getInt("Year");
-				ISBN = rs.getInt("ISBN");
+				ISBN = rs.getLong("ISBN");
 				title = rs.getString("Title");
 				author = rs.getString("Author");
 				publisher = rs.getString("Publisher");
@@ -74,7 +76,7 @@ public class DatabaseReader {
 		User user = null;
 		int ownerID = 0;
 		int year = 0;
-		int ISBN = 0;
+		long ISBN = 0;
 		String title, author, publisher;
 		boolean isAvailable;
 		try{
@@ -106,7 +108,7 @@ public class DatabaseReader {
 				author = rs.getString("Author");
 				publisher = rs.getString("publisher");
 				year = rs.getInt("Year");
-				ISBN = rs.getInt("ISBN");
+				ISBN = rs.getLong("ISBN");
 				isAvailable = rs.getBoolean("IsAvailable");
 				
 				availableBooks.add(new Book(user, title, author, publisher, year, ISBN, isAvailable));
