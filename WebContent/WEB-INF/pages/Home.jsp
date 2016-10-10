@@ -51,7 +51,7 @@ table, th, td {
 		<jsp:setProperty name="exampleBook" property="author" value="Author" />
 		<jsp:setProperty name="exampleBook" property="publisher"
 			value="Publisher" />
-		<jsp:setProperty name="exampleBook" property="date" value="Date" />
+		<jsp:setProperty name="exampleBook" property="year" value="2004" />
 		<jsp:setProperty name="exampleBook" property="ISBN" value="123456789" />
 	</jsp:useBean>
 
@@ -60,7 +60,7 @@ table, th, td {
 		<jsp:setProperty name="exampleBook2" property="author" value="Author2" />
 		<jsp:setProperty name="exampleBook2" property="publisher"
 			value="Publisher2" />
-		<jsp:setProperty name="exampleBook2" property="date" value="Date2" />
+		<jsp:setProperty name="exampleBook2" property="year" value="1991" />
 		<jsp:setProperty name="exampleBook2" property="ISBN"
 			value="1234567892" />
 	</jsp:useBean>
@@ -80,7 +80,7 @@ table, th, td {
 		</tr>
 		<tr>
 			<td>Date</td>
-			<td>${exampleBook.date}</td>
+			<td>${exampleBook.year}</td>
 		</tr>
 		<tr>
 			<td>ISBN</td>
@@ -107,7 +107,7 @@ table, th, td {
 		</tr>
 		<tr>
 			<td>Date</td>
-			<td>${exampleBook2.date}</td>
+			<td>${exampleBook2.year}</td>
 		</tr>
 		<tr>
 			<td>ISBN</td>

@@ -44,7 +44,7 @@ table, th, td {
 		<jsp:setProperty name="exampleBook" property="author" value="Author" />
 		<jsp:setProperty name="exampleBook" property="publisher"
 			value="Publisher" />
-		<jsp:setProperty name="exampleBook" property="date" value="Date" />
+		<jsp:setProperty name="exampleBook" property="year" value="2000" />
 		<jsp:setProperty name="exampleBook" property="ISBN" value="123456789" />
 	</jsp:useBean>
 
@@ -63,7 +63,7 @@ table, th, td {
 		</tr>
 		<tr>
 			<td>Date</td>
-			<td>${exampleBook.date}</td>
+			<td>${exampleBook.year}</td>
 		</tr>
 		<tr>
 			<td>ISBN</td>
@@ -71,6 +71,28 @@ table, th, td {
 		</tr>
 	</table>
 	<input type='button' value='Remove'>
+	<h2>Add Book</h2>
+	<form method="post">
+		<label>Title:</label> <input type="text" name="title"><br />
+		<label>Author:</label> <input type="text" name="author"><br />
+		<label>Publisher:</label> <input type="text" name="publisher"><br />
+		<label>Year:</label> <input type="text" name="year"><br /> <label>ISBN:</label>
+		<input type="text" name="isbn"><br /> <input type="submit"
+			value="Add Book">
+	</form>
+	<c:if test="${success}">
+		<div class="alert alert-danger">
+			<ul>
+				<li>${messages.result}</li>
+				<li>${messages.user}</li>
+				<li>${messages.title}</li>
+				<li>${messages.author}</li>
+				<li>${messages.publisher}</li>
+				<li>${messages.year}</li>
+				<li>${messages.isbn}</li>
+			</ul>
+		</div>
+	</c:if>
 	<div class="footer">
 		<p>Books Out For Harambe, BOFH&copy; 2016</p>
 		<p>1110 S 67th St Omaha NE 68182</p>

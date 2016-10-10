@@ -6,6 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import models.User;
 
 /**
  * Servlet implementation class HomeServlet
@@ -26,6 +29,10 @@ public class HomeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		//Since we still do not have a login page we will hardcode a user in that can be passed around for the other servlets to use
+		User debuggingUser = new User("tempUser", "password");
+		session.setAttribute("user", debuggingUser);
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/Home.jsp").forward(request, response);
 	}
 

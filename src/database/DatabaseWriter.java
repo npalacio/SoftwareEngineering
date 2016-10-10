@@ -8,8 +8,9 @@ import models.Book;
 import models.User;
 
 public class DatabaseWriter {
-
-	public static void deleteBook(Book book){
+	
+	//returns boolean indicating success/failure
+	public static boolean deleteBook(Book book){
 		Connection conn = null;
 		PreparedStatement ps = null;
 		int ownerID = 0;
@@ -34,6 +35,10 @@ public class DatabaseWriter {
 			{
 				ownerID = rs.getInt("ID");
 			}
+			if(ownerID == 0) {
+				System.out.println("No owner ID returned in deleteBook method, exiting method");
+				return false;
+			}
 			sql = "SELECT ID FROM Books WHERE OwnerID = ? AND Title = ? AND Author = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1,  ownerID);
@@ -43,6 +48,10 @@ public class DatabaseWriter {
 			while(rs.next())
 			{
 				bookID = rs.getInt("ID");
+			}
+			if(bookID == 0){
+				System.out.println("No BookID returned in deleteBook, exiting method");
+				return false;
 			}
 			sql = "DELETE FROM Trades WHERE SenderBookID = ? OR ReceiverBookID = ?";
 			ps = conn.prepareStatement(sql);
@@ -63,12 +72,15 @@ public class DatabaseWriter {
 			System.out.println("Done");
 		} catch(SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
 		Database.disposePS(ps);
 		Database.disposeConn(conn);
+		return true;
 	}
 	
-	public static void addBook(Book book){
+	//returns boolean indicating success/failure
+	public static boolean addBook(Book book){
 		Connection conn = null;
 		PreparedStatement ps = null;
 		int ownerID = 0;
@@ -92,8 +104,11 @@ public class DatabaseWriter {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, book.getOwner().getName());
 			rs = ps.executeQuery();
-			while(rs.next()){
-				ownerID = rs.getInt("ID");
+			rs.next();
+			ownerID = rs.getInt("ID");
+			if(ownerID == 0){
+				System.out.println("No OwnerID returned in deleteBook, exiting method");
+				return false;
 			}
 			sql = "INSERT INTO Books (OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable) VALUES (?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(sql);
@@ -109,9 +124,11 @@ public class DatabaseWriter {
 			System.out.println("Done");
 		} catch(SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
 		Database.disposePS(ps);
 		Database.disposeConn(conn);
+		return true;
 	}
 	
 	

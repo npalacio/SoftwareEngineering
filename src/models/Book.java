@@ -13,6 +13,9 @@ public class Book {
 	private long ISBN;
 	private boolean isAvailable;
 	
+	//Needed a constructor with no args for the jsp:useBean tag on the home page, this should only be a temporary thing
+	public Book(){}
+	
 	public Book(User owner, String title, String author, String publisher, int year, long isbn, boolean isAvailable) {
 		this.owner = owner;
 		this.title = title;
