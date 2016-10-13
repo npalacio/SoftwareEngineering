@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8" import="models.*"%>
+	pageEncoding="utf-8" import="models.*" import="database.*"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -39,38 +39,35 @@ table, th, td {
 
 	<h2>List of My Books For Sale or Trade</h2>
 
-	<jsp:useBean id="exampleBook" class="models.Book" scope="page">
-		<jsp:setProperty name="exampleBook" property="title" value="TITLE" />
-		<jsp:setProperty name="exampleBook" property="author" value="Author" />
-		<jsp:setProperty name="exampleBook" property="publisher"
-			value="Publisher" />
-		<jsp:setProperty name="exampleBook" property="year" value="2000" />
-		<jsp:setProperty name="exampleBook" property="ISBN" value="123456789" />
-	</jsp:useBean>
-
-	<table style="width: 50%">
+	<c:forEach items="${dbr.getMyBooks(user)}" var="book">
+		<table style="width: 50%">
 		<tr>
 			<td>Name</td>
-			<td>${exampleBook.title}</td>
+			<td>${book.getTitle()}</td>
 		</tr>
 		<tr>
 			<td>Author</td>
-			<td>${exampleBook.author}</td>
+			<td>${book.getAuthor()}</td>
 		</tr>
 		<tr>
 			<td>Publisher</td>
-			<td>${exampleBook.publisher}</td>
+			<td>${book.getPublisher()}</td>
 		</tr>
 		<tr>
 			<td>Date</td>
-			<td>${exampleBook.year}</td>
+			<td>${book.getYear()}</td>
 		</tr>
 		<tr>
 			<td>ISBN</td>
-			<td>${exampleBook.ISBN}</td>
+			<td>${book.getISBN()}</td>
 		</tr>
 	</table>
-	<input type='button' value='Remove'>
+	<input type='button' value='Trade'>
+	<input type='button' value='Purchase'>
+	<br>
+	<br />
+	</c:forEach>
+	
 	<h2>Add Book</h2>
 	<form method="post">
 		<label>Title:</label> <input type="text" name="title"><br />

@@ -13,7 +13,8 @@ import models.User;
 
 public class DatabaseReader {
 	
-	public static List<Book> getAvailableBooks(){
+	
+	public List<Book> getAvailableBooks(){
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement ps2 = null;
@@ -69,7 +70,7 @@ public class DatabaseReader {
 		return availableBooks;
 	}
 	
-	public static List<Book> getMyBooks(User owner){
+	public List<Book> getMyBooks(User owner){
 		Connection conn = null;
 		PreparedStatement ps = null;
 		List<Book> availableBooks = new LinkedList<Book>();

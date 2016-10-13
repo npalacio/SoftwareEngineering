@@ -1,5 +1,5 @@
 <%@page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8" import="models.*"%>
+	pageEncoding="utf-8" import="models.*" import="database.*"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -45,79 +45,36 @@ table, th, td {
 	</form>
  -->
 	<h2>List of Available Books</h2>
-
-	<jsp:useBean id="exampleBook" class="models.Book" scope="page">
-		<jsp:setProperty name="exampleBook" property="title" value="TITLE" />
-		<jsp:setProperty name="exampleBook" property="author" value="Author" />
-		<jsp:setProperty name="exampleBook" property="publisher"
-			value="Publisher" />
-		<jsp:setProperty name="exampleBook" property="year" value="2004" />
-		<jsp:setProperty name="exampleBook" property="ISBN" value="123456789" />
-	</jsp:useBean>
-
-	<jsp:useBean id="exampleBook2" class="models.Book" scope="page">
-		<jsp:setProperty name="exampleBook2" property="title" value="TITLE2" />
-		<jsp:setProperty name="exampleBook2" property="author" value="Author2" />
-		<jsp:setProperty name="exampleBook2" property="publisher"
-			value="Publisher2" />
-		<jsp:setProperty name="exampleBook2" property="year" value="1991" />
-		<jsp:setProperty name="exampleBook2" property="ISBN"
-			value="1234567892" />
-	</jsp:useBean>
-
-	<table style="width: 50%">
+	
+	<c:forEach items="${dbr.getAvailableBooks()}" var="book">
+		<table style="width: 50%">
 		<tr>
 			<td>Name</td>
-			<td>${exampleBook.title}</td>
+			<td>${book.getTitle()}</td>
 		</tr>
 		<tr>
 			<td>Author</td>
-			<td>${exampleBook.author}</td>
+			<td>${book.getAuthor()}</td>
 		</tr>
 		<tr>
 			<td>Publisher</td>
-			<td>${exampleBook.publisher}</td>
+			<td>${book.getPublisher()}</td>
 		</tr>
 		<tr>
 			<td>Date</td>
-			<td>${exampleBook.year}</td>
+			<td>${book.getYear()}</td>
 		</tr>
 		<tr>
 			<td>ISBN</td>
-			<td>${exampleBook.ISBN}</td>
+			<td>${book.getISBN()}</td>
 		</tr>
 	</table>
 	<input type='button' value='Trade'>
 	<input type='button' value='Purchase'>
 	<br>
 	<br />
-
-	<table style="width: 50%">
-		<tr>
-			<td>Name</td>
-			<td>${exampleBook2.title}</td>
-		</tr>
-		<tr>
-			<td>Author</td>
-			<td>${exampleBook2.author}</td>
-		</tr>
-		<tr>
-			<td>Publisher</td>
-			<td>${exampleBook2.publisher}</td>
-		</tr>
-		<tr>
-			<td>Date</td>
-			<td>${exampleBook2.year}</td>
-		</tr>
-		<tr>
-			<td>ISBN</td>
-			<td>${exampleBook2.ISBN}</td>
-		</tr>
-	</table>
-	<input type='button' value='Trade'>
-	<input type='button' value='Purchase'>
-	<br>
-	<br />
+	</c:forEach>
+	
 
 	<div class="footer">
 		<p>Books Out For Harambe, BOFH&copy; 2016</p>

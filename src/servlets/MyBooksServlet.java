@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database.DatabaseReader;
 import database.DatabaseWriter;
 import models.Book;
 import models.User;
@@ -34,7 +35,12 @@ public class MyBooksServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		User user = new User("npalacio", "fakePassword");
+		request.setAttribute("user", user);
+		DatabaseReader dbr = new DatabaseReader();
+		request.setAttribute("dbr", dbr);
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/MyBooks.jsp").forward(request, response);
+		
 	}
 
 	/**
