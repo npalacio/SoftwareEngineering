@@ -62,8 +62,7 @@ table, th, td {
 			<td>${book.getISBN()}</td>
 		</tr>
 	</table>
-	<input type='button' value='Trade'>
-	<input type='button' value='Purchase'>
+	<input type='button' value='Remove'>
 	<br>
 	<br />
 	</c:forEach>
