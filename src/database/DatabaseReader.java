@@ -20,6 +20,7 @@ public class DatabaseReader {
 		PreparedStatement ps2 = null;
 		List<Book> availableBooks = new LinkedList<Book>();
 		User user = null;
+		int id = 0;
 		int ownerID = 0;
 		int year = 0;
 		long ISBN = 0;
@@ -34,11 +35,11 @@ public class DatabaseReader {
 			//Execute a query
 			//System.out.println("Creating statement...");
 			String sql = null;
-			if(columnToSortBy != null) {
-				sql = "SELECT OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE IsAvailable = 1 ORDER BY " 
+			if(columnToSortBy != null && !columnToSortBy.isEmpty()) {
+				sql = "SELECT ID, OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE IsAvailable = 1 ORDER BY " 
 						+ columnToSortBy + ";";
 			} else {
-				sql = "SELECT OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE IsAvailable = 1 ORDER BY Title;";
+				sql = "SELECT ID, OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE IsAvailable = 1 ORDER BY Title;";
 			}
 			
 			ResultSet rs, rs2 = null;
@@ -49,6 +50,7 @@ public class DatabaseReader {
 			while(rs.next())
 			{
 				//Get the book information
+				id = rs.getInt("ID");
 				ownerID = rs.getInt("OwnerID");
 				year = rs.getInt("Year");
 				ISBN = rs.getLong("ISBN");
@@ -66,7 +68,7 @@ public class DatabaseReader {
 					user = new User(rs2.getString("Username"), rs2.getString("Password"));
 				}
 				rs2.close();
-				availableBooks.add(new Book(user, title, author, publisher, year, ISBN, true));
+				availableBooks.add(new Book(id, user, title, author, publisher, year, ISBN, true));
 			}
 			rs.close();
 			
@@ -79,10 +81,11 @@ public class DatabaseReader {
 		return availableBooks;
 	}
 	
-	public List<Book> getMyBooks(User owner){
+	public List<Book> getMyBooks(User owner, String columnToSortBy){
 		Connection conn = null;
 		PreparedStatement ps = null;
 		List<Book> availableBooks = new LinkedList<Book>();
+		int id = 0;
 		User user = null;
 		int ownerID = 0;
 		int year = 0;
@@ -108,12 +111,17 @@ public class DatabaseReader {
 				//Get the ownerID that is used to get the books that belong to our user
 				ownerID = rs.getInt("ID");
 			}
-			
-			sql = "SELECT Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE OwnerID = ? ORDER BY Title;";
+			if(columnToSortBy != null && !columnToSortBy.isEmpty()) {
+				sql = "SELECT ID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE OwnerID = ? ORDER BY " 
+						+ columnToSortBy + ";";
+			} else {
+				sql = "SELECT ID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE OwnerID = ? ORDER BY Title;";
+			}
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, ownerID);
 			rs = ps.executeQuery();
 			while(rs.next()){
+				id = rs.getInt("Year");
 				title = rs.getString("Title");
 				author = rs.getString("Author");
 				publisher = rs.getString("publisher");
@@ -121,7 +129,7 @@ public class DatabaseReader {
 				ISBN = rs.getLong("ISBN");
 				isAvailable = rs.getBoolean("IsAvailable");
 				
-				availableBooks.add(new Book(user, title, author, publisher, year, ISBN, isAvailable));
+				availableBooks.add(new Book(id, user, title, author, publisher, year, ISBN, isAvailable));
 			}
 			rs.close();
 			

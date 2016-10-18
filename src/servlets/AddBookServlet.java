@@ -35,7 +35,8 @@ public class AddBookServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/MyBooks").forward(request, response);
+		//request.getRequestDispatcher("/MyBooks").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/pages/AddBook.jsp").forward(request, response);
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -48,7 +49,7 @@ public class AddBookServlet extends HttpServlet {
 		request.setAttribute("messages", messages);
 		addBook(request, messages, getBookToAdd(request, messages));
 		request.setAttribute("isPost", true);
-		request.getRequestDispatcher("/MyBooks").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/pages/AddBook.jsp").forward(request, response);
 		//getServletContext().getRequestDispatcher("/WEB-INF/pages/MyBooks.jsp").forward(request, response);
 	}
 	
@@ -62,9 +63,10 @@ public class AddBookServlet extends HttpServlet {
 	private void addBook(HttpServletRequest request, Map<String, String> messages, Book book) {
 		boolean result = false;
 		//System.out.println("Book title: " + book.getTitle());
+		DatabaseWriter writer = new DatabaseWriter();
 		if(book != null){
 			try{
-				result = DatabaseWriter.addBook(book);
+				result = writer.addBook(book);
 				//System.out.println("Bood Added? " + result);
 				if(result) {
 					request.setAttribute("success", true);

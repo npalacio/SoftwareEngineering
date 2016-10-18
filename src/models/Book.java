@@ -5,6 +5,7 @@ import java.math.BigInteger;
 //This is the class to model a book
 public class Book {
 
+	private int Id;
 	private User owner;
 	private String title;
 	private String author;
@@ -13,9 +14,19 @@ public class Book {
 	private long ISBN;
 	private boolean isAvailable;
 	
-	//Needed a constructor with no args for the jsp:useBean tag on the home page, this should only be a temporary thing
-	public Book(){}
+	public Book(int id, User owner, String title, String author, String publisher, int year, long isbn, boolean isAvailable) {
+		this.Id = id;
+		this.owner = owner;
+		this.title = title;
+		this.author= author;
+		this.publisher = publisher;
+		this.year = year;
+		this.ISBN = isbn;
+		this.isAvailable = isAvailable;
+	}
 	
+	//A separate constructor used when adding a book, we do not populate the ID field since this will be populated
+	//automatically when we put it in the database
 	public Book(User owner, String title, String author, String publisher, int year, long isbn, boolean isAvailable) {
 		this.owner = owner;
 		this.title = title;
@@ -25,7 +36,12 @@ public class Book {
 		this.ISBN = isbn;
 		this.isAvailable = isAvailable;
 	}
-
+	
+	//This property should be read-only in the code so that it stays in sync with the database primary key of ID
+	public int getId() {
+		return Id;
+	}
+	
 	public String getTitle() {
 		return title;
 	}

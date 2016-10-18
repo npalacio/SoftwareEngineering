@@ -22,6 +22,7 @@
 				<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
 				<li><a href="${pageContext.request.contextPath}/MyBooks">My
 						Books</a></li>
+				<li><a href="${pageContext.request.contextPath}/AddBook">Add Book</a></li>
 				<li><a href="${pageContext.request.contextPath}/Notifications">Notifications</a></li>
 				<li><a href="${pageContext.request.contextPath}/ContactUs">Contact
 						Us</a></li>

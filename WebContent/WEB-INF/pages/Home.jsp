@@ -22,6 +22,7 @@
 			<ul class="nav navbar-nav">
 				<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
 				<li><a href="${pageContext.request.contextPath}/MyBooks">MyBooks</a></li>
+				<li><a href="${pageContext.request.contextPath}/AddBook">Add Book</a></li>
 				<li><a href="${pageContext.request.contextPath}/Notifications">Notifications</a></li>
 				<li><a href="${pageContext.request.contextPath}/ContactUs">ContactUs</a></li>
 			</ul>
