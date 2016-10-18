@@ -37,6 +37,7 @@ public class HomeServlet extends HttpServlet {
 		session.setAttribute("user", debuggingUser);
 		DatabaseReader dbr = new DatabaseReader();
 		request.setAttribute("dbr", dbr);
+		request.setAttribute("column", request.getParameter("col"));
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/Home.jsp").forward(request, response);
 	}
 

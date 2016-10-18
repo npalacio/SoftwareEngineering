@@ -16,7 +16,7 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">BooksOutForHarambe</a>
+				<a class="navbar-brand" href="${pageContext.request.contextPath}/Home">BooksOutForHarambe</a>
 			</div>
 			<ul class="nav navbar-nav">
 				<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
@@ -58,7 +58,7 @@
 		<h2>Add Book</h2>
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				<form role="form" method="post">
+				<form role="form" method="post" action="${pageContext.request.contextPath}/AddBook">
 					<div class="form-group">
 						<c:if
 							test="${!messages.result.isEmpty() && messages.result != null}">
@@ -116,22 +116,7 @@
 		</div>
 	</div>
 	<br />
-	<%-- 	<c:if test="${isPost && !success}">
-		<div class="alert alert-danger">
-			<ul>
-				<c:if test="${!messages.result.isEmpty() && messages.result != null}"><li class="text-danger">*${messages.result}</li></c:if>
-				<c:if test="${!messages.user.isEmpty() && messages.user != null}"><li class="text-danger">*${messages.user}</li></c:if>
-				<c:if test="${!messages.title.isEmpty() && messages.title != null}"><li class="text-danger">*${messages.title}</li></c:if>
-				<c:if test="${!messages.author.isEmpty() && messages.author != null}"><li class="text-danger">*${messages.author}</li></c:if>
-				<c:if test="${!messages.publisher.isEmpty() && messages.publisher != null}"><li class="text-danger">*${messages.publisher}</li></c:if>
-				<c:if test="${!messages.year.isEmpty() && messages.year != null}"><li class="text-danger">*${messages.year}</li></c:if>
-				<c:if test="${!messages.isbn.isEmpty() && messages.isbn != null}"><li class="text-danger">*${messages.isbn}</li></c:if>
-			</ul>
-		</div>
-	</c:if>
- --%>
-
-	<div class="footer">
+	<div class="footer text-muted">
 		<p>Books Out For Harambe, BOFH&copy; 2016</p>
 		<p>1110 S 67th St Omaha NE 68182</p>
 		<!-- 	<p>Contributors: Nick Palacio, Alejandra Iniguez, Joseph Stein</p><br/> -->

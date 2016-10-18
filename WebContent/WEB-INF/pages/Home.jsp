@@ -16,7 +16,8 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">BooksOutForHarambe</a>
+				<a class="navbar-brand"
+					href="${pageContext.request.contextPath}/Home">BooksOutForHarambe</a>
 			</div>
 			<ul class="nav navbar-nav">
 				<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
@@ -26,22 +27,20 @@
 			</ul>
 		</div>
 	</nav>
-	<h3>
-		Welcome, User!
-	</h3>
+	<h3>Welcome, User!</h3>
 	<h5>Here are the books available for purchasing/trading today:</h5>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
 				<table class="table table-bordered table-condensed table-striped">
 					<tr>
-						<td><strong>Title</strong></td>
-						<td><strong>Author</strong></td>
-						<td><strong>Publisher</strong></td>
-						<td><strong>Year</strong></td>
-						<td><strong>ISBN</strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Title">Title</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Author">Author</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Publisher">Publisher</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Year">Year</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=ISBN">ISBN</a></strong></td>
 					</tr>
-					<c:forEach items="${dbr.getAvailableBooks()}" var="book">
+					<c:forEach items="${dbr.getAvailableBooks(column)}" var="book">
 						<tr class="text">
 							<td class="italic">${book.getTitle()}</td>
 							<td>${book.getAuthor()}</td>
@@ -57,7 +56,7 @@
 		</div>
 	</div>
 	<br />
-	<div class="footer">
+	<div class="footer text-muted">
 		<p>Books Out For Harambe, BOFH&copy; 2016</p>
 		<p>1110 S 67th St Omaha NE 68182</p>
 		<!-- 	<p>Contributors: Nick Palacio, Alejandra Iniguez, Joseph Stein</p><br/> -->

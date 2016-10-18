@@ -15,7 +15,8 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">BooksOutForHarambe</a>
+				<a class="navbar-brand"
+					href="${pageContext.request.contextPath}/Home">BooksOutForHarambe</a>
 			</div>
 			<ul class="nav navbar-nav">
 				<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
@@ -28,29 +29,32 @@
 		</div>
 	</nav>
 	<h1>This is the contact us page</h1>
+
+	<h3>Please feel free leave us a message:</h3>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<form role="form" method="post">
+				<div class="form-group">
+					<label>Subject:</label> <input type="text" name="subject" value=""
+						class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Message:</label>
+					<textarea rows="4" cols="50" name="message" value=""
+						class="form-control"></textarea>
+				</div>
+				<input type="submit" value="Add Book" class="btn btn-default">
+			</form>
+		</div>
+	</div>
 	<div class="contactUsDiv">
-		<h3>Please feel free to contact us:</h3>
+		<h3>Or contact us here:</h3>
 		<strong>Telephone:</strong> 1-800-555-5555 <br /> <strong>Email:</strong>
 		admin@BooksOutForHarambe.com <br /> <strong>Mail:</strong> 1110 S
 		67th St Omaha NE 68182 <br>
-		<h3>Or leave us a message:</h3>
-		<form>
-			<table>
-				<tr>
-					<td>Subject:</td>
-					<td><input type="text"></td>
-				</tr>
-				<tr>
-					<td>Message:</td>
-					<td><textarea rows="4" cols="50"></textarea></td>
-				</tr>
-			</table>
-			<br />
-			<button type="button">Submit</button>
-		</form>
 	</div>
-	<br/>
-	<div class="footer">
+	<br />
+	<div class="footer text-muted">
 		<p>Books Out For Harambe, BOFH&copy; 2016</p>
 		<p>1110 S 67th St Omaha NE 68182</p>
 		<!-- 	<p>Contributors: Nick Palacio, Alejandra Iniguez, Joseph Stein</p><br/> -->

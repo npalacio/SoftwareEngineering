@@ -14,7 +14,7 @@ import models.User;
 public class DatabaseReader {
 	
 	
-	public List<Book> getAvailableBooks(){
+	public List<Book> getAvailableBooks(String columnToSortBy){
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement ps2 = null;
@@ -33,9 +33,18 @@ public class DatabaseReader {
 
 			//Execute a query
 			//System.out.println("Creating statement...");
-			String sql = "SELECT OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE IsAvailable = 1;";
+			String sql = null;
+			if(columnToSortBy != null) {
+				sql = "SELECT OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE IsAvailable = 1 ORDER BY " 
+						+ columnToSortBy + ";";
+			} else {
+				sql = "SELECT OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE IsAvailable = 1 ORDER BY Title;";
+			}
+			
 			ResultSet rs, rs2 = null;
 			ps = conn.prepareStatement(sql);
+
+			System.out.println("Final query: " + ps);
 			rs = ps.executeQuery();
 			while(rs.next())
 			{
@@ -100,7 +109,7 @@ public class DatabaseReader {
 				ownerID = rs.getInt("ID");
 			}
 			
-			sql = "SELECT Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE OwnerID = ?;";
+			sql = "SELECT Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE OwnerID = ? ORDER BY Title;";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, ownerID);
 			rs = ps.executeQuery();
