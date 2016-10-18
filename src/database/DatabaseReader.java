@@ -29,10 +29,10 @@ public class DatabaseReader {
 			//System.out.println("Connecting to database...");
 			conn = Database.getConnection();
 
-			System.out.println("Connected to database...");
+			//System.out.println("Connected to database...");
 
 			//Execute a query
-			System.out.println("Creating statement...");
+			//System.out.println("Creating statement...");
 			String sql = "SELECT OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE IsAvailable = 1;";
 			ResultSet rs, rs2 = null;
 			ps = conn.prepareStatement(sql);

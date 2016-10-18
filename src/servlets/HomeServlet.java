@@ -33,7 +33,7 @@ public class HomeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		//Since we still do not have a login page we will hardcode a user in that can be passed around for the other servlets to use
-		User debuggingUser = new User("tempUser", "password");
+		User debuggingUser = new User("npalacio", "fakePassword");
 		session.setAttribute("user", debuggingUser);
 		DatabaseReader dbr = new DatabaseReader();
 		request.setAttribute("dbr", dbr);

@@ -4,13 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-	background-color: #e6f9ff;
-}
-</style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>BooksOutForHarambe</title>
 <script type="text/javascript" src="bootstrap/js/jquery-3.1.1.min.js"></script>
@@ -33,49 +26,37 @@ table, th, td {
 			</ul>
 		</div>
 	</nav>
-	<h1>
-		This is the Home page<br />
-	</h1>
-	<!--	<h3>User Login</h3>
- 	<form method='get'>
-		User Name: <input type='text' name='UserName'> Password: <input
-			type='password' name='Password'> <input type='submit'
-			value='Submit'>
-
-	</form>
- -->
-	<h2>List of Available Books</h2>
-	
-	<c:forEach items="${dbr.getAvailableBooks()}" var="book">
-		<table style="width: 50%">
-		<tr>
-			<td>Name</td>
-			<td>${book.getTitle()}</td>
-		</tr>
-		<tr>
-			<td>Author</td>
-			<td>${book.getAuthor()}</td>
-		</tr>
-		<tr>
-			<td>Publisher</td>
-			<td>${book.getPublisher()}</td>
-		</tr>
-		<tr>
-			<td>Date</td>
-			<td>${book.getYear()}</td>
-		</tr>
-		<tr>
-			<td>ISBN</td>
-			<td>${book.getISBN()}</td>
-		</tr>
-	</table>
-	<input type='button' value='Trade'>
-	<input type='button' value='Purchase'>
-	<br>
+	<h3>
+		Welcome, User!
+	</h3>
+	<h5>Here are the books available for purchasing/trading today:</h5>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<table class="table table-bordered table-condensed table-striped">
+					<tr>
+						<td><strong>Title</strong></td>
+						<td><strong>Author</strong></td>
+						<td><strong>Publisher</strong></td>
+						<td><strong>Year</strong></td>
+						<td><strong>ISBN</strong></td>
+					</tr>
+					<c:forEach items="${dbr.getAvailableBooks()}" var="book">
+						<tr class="text">
+							<td class="italic">${book.getTitle()}</td>
+							<td>${book.getAuthor()}</td>
+							<td>${book.getPublisher()}</td>
+							<td>${book.getYear()}</td>
+							<td>${book.getISBN()}</td>
+							<td class="text-primary"><button>Trade</button>&nbsp;
+								<button>Purchase</button></td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</div>
+	</div>
 	<br />
-	</c:forEach>
-	
-
 	<div class="footer">
 		<p>Books Out For Harambe, BOFH&copy; 2016</p>
 		<p>1110 S 67th St Omaha NE 68182</p>
