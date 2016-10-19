@@ -35,11 +35,10 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-offset-1">
-				<c:if test="${!messages.result.isEmpty() && messages.result.contains("succeeded")}">
+				<c:if test="${!messages.result.isEmpty() && messages.result.contains('succeeded')}">
 					<span class="text-danger">${messages.result}</span>
 				</c:if>
-				<c:if test="${!messages.result.isEmpty() && messages.result.contains("failed")}">
-					<br />
+				<c:if test="${!messages.result.isEmpty() && messages.result.contains('failed')}">
 					<span class="text-danger">${messages.user}</span>
 				</c:if>
 			</div>
@@ -60,6 +59,7 @@
 								href="${pageContext.request.contextPath}/MyBooks?col=ISBN">ISBN</a></strong></td>
 					</tr>
 					<c:forEach items="${dbr.getMyBooks(user, column)}" var="book">
+					
 						<tr class="text">
 							<td class="italic">${book.getTitle()}</td>
 							<td>${book.getAuthor()}</td>

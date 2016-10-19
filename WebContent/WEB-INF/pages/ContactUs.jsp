@@ -41,8 +41,7 @@
 				</div>
 				<div class="form-group">
 					<label>Message:</label>
-					<textarea rows="4" cols="50" name="message" value=""
-						class="form-control"></textarea>
+					<textarea rows="4" cols="50" name="message" class="form-control"></textarea>
 				</div>
 				<input type="submit" value="Add Book" class="btn btn-default">
 			</form>

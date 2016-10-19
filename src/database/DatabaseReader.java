@@ -44,8 +44,6 @@ public class DatabaseReader {
 			
 			ResultSet rs, rs2 = null;
 			ps = conn.prepareStatement(sql);
-
-			System.out.println("Final query: " + ps);
 			rs = ps.executeQuery();
 			while(rs.next())
 			{
@@ -121,7 +119,7 @@ public class DatabaseReader {
 			ps.setInt(1, ownerID);
 			rs = ps.executeQuery();
 			while(rs.next()){
-				id = rs.getInt("Year");
+				id = rs.getInt("ID");
 				title = rs.getString("Title");
 				author = rs.getString("Author");
 				publisher = rs.getString("publisher");

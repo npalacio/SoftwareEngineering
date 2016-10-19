@@ -34,13 +34,6 @@ public class RemoveBookServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		//getServletContext().getRequestDispatcher("/WEB-INF/pages/MyBooks.jsp").forward(request, response);
-		request.getRequestDispatcher("/MyBooks").forward(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//messages is used to display messages to the user based on the result of the book removal
 		Map<String, String> messages = new HashMap<String, String>();
 		request.setAttribute("messages", messages);
@@ -54,10 +47,18 @@ public class RemoveBookServlet extends HttpServlet {
 		//MyBooks.jsp looks for the keywords 'succeeded' or 'failed' so it knows what message to display to user
 		if(id != 0) {
 			boolean success = writer.deleteBook(id);
-			if(success) messages.put("result", "Book removal succeeded!");
+			if(success) 
+				messages.put("result", "Book removal succeeded!");
 		} else {
 			messages.put("result", "Book removal failed");
 		}
+		request.getRequestDispatcher("/MyBooks").forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//getServletContext().getRequestDispatcher("/WEB-INF/pages/MyBooks.jsp").forward(request, response);
 		request.getRequestDispatcher("/MyBooks").forward(request, response);
 	}

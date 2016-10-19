@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>MyBooks</title>
+<title>Add Book</title>
 <script type="text/javascript" src="bootstrap/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
@@ -30,7 +30,6 @@
 			</ul>
 		</div>
 	</nav>
-	<h2>List of My Books For Sale or Trade</h2>
 	<div class="container-fluid">
 		<h2>Add Book</h2>
 		<div class="row">
