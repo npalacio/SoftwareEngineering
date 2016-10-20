@@ -8,15 +8,25 @@
 .contactUsDiv table{
 	margin: auto;
 }
+html, body {
+    height: 100%;
+    margin: 0;
+}
+.wrapper{
+    min-height: 100%;
+}
 .footer{
 	text-align: center;
 	line-height: 15px;
 	width: 90%;
-	margin: auto;
-	margin-bottom: 10px;
 	font-size: small;
-	padding-top: 5px;
+	margin: auto;
+	margin-top: 30px;
 }
 .italic{
 	font-style: italic;
+}
+.logo{
+	margin-top: 30px;
+	margin-bottom: 30px;
 }

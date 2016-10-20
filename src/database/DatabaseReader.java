@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-
 import models.Book;
 import models.User;
 
@@ -139,11 +138,42 @@ public class DatabaseReader {
 		return availableBooks;
 	}
 	
+	public static boolean isValidUser(User user){
+		Connection conn = null;
+		PreparedStatement ps = null;
+		String username = user.getName();
+		String password = user.getPassword();
+		String validatedUsername = null;
+		String validatedPassword = null;
+		try{
+			conn = Database.getConnection();
+			//BINARY keyword cause case-sensitive comparison only on Password comparison
+			String sql = "SELECT Username, Password FROM Users WHERE BINARY Password = ? AND Username = ?;";
+			ResultSet rs = null;
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, password);
+			ps.setString(2, username);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				validatedUsername = rs.getString("Username");
+				validatedPassword = rs.getString("Password");
+			}
+			rs.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		Database.disposePS(ps);
+		Database.disposeConn(conn);
+		//If the query returned any value, it is a valid user
+		return validatedUsername != null && validatedPassword != null;
+	}
+	
 	//Main method for testing purposes
-//	public static void main(String args[]){
-//		User user = new User("npalacio", "fakePassword");
+	public static void main(String args[]){
+		User user = new User("john", "doe");
 //		for(Book book : getMyBooks(user)){
 //			System.out.println("Books owned by npalacio: " + book.getTitle());
 //		}
-//	}
+		System.out.println(isValidUser(user));
+	}
 }
