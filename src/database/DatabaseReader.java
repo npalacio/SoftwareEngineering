@@ -13,7 +13,7 @@ import models.User;
 public class DatabaseReader {
 	
 	
-	public List<Book> getAvailableBooks(String columnToSortBy){
+	public static List<Book> getAvailableBooks(String columnToSortBy){
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement ps2 = null;
@@ -138,7 +138,7 @@ public class DatabaseReader {
 		return availableBooks;
 	}
 	
-	public static boolean isValidUser(User user){
+	public boolean isValidUser(User user){
 		Connection conn = null;
 		PreparedStatement ps = null;
 		String username = user.getName();
@@ -147,7 +147,7 @@ public class DatabaseReader {
 		String validatedPassword = null;
 		try{
 			conn = Database.getConnection();
-			//BINARY keyword cause case-sensitive comparison only on Password comparison
+			//BINARY keyword because case-sensitive comparison only on Password comparison
 			String sql = "SELECT Username, Password FROM Users WHERE BINARY Password = ? AND Username = ?;";
 			ResultSet rs = null;
 			ps = conn.prepareStatement(sql);
@@ -169,11 +169,11 @@ public class DatabaseReader {
 	}
 	
 	//Main method for testing purposes
-	public static void main(String args[]){
-		User user = new User("john", "doe");
+//	public static void main(String args[]){
+//		User user = new User("john", "doe");
 //		for(Book book : getMyBooks(user)){
 //			System.out.println("Books owned by npalacio: " + book.getTitle());
 //		}
-		System.out.println(isValidUser(user));
-	}
+//		System.out.println(isValidUser(user));
+//	}
 }

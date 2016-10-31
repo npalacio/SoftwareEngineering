@@ -34,10 +34,12 @@ public class AddBookServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//request.getRequestDispatcher("/MyBooks").forward(request, response);
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null) {
+			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
+			return;
+		}
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/AddBook.jsp").forward(request, response);
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**

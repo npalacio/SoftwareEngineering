@@ -31,12 +31,17 @@ public class HomeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null) {
+			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
+			return;
+		}
 		HttpSession session = request.getSession();
 		//Since we still do not have a login page we will hardcode a user in that can be passed around for the other servlets to use
 		User debuggingUser = new User("npalacio", "fakePassword");
 		session.setAttribute("user", debuggingUser);
-		DatabaseReader dbr = new DatabaseReader();
-		request.setAttribute("dbr", dbr);
+//		DatabaseReader dbr = new DatabaseReader();
+//		request.setAttribute("dbr", dbr);
 		request.setAttribute("column", request.getParameter("col"));
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/Home.jsp").forward(request, response);
 	}

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.DatabaseWriter;
+import models.User;
 
 /**
  * Servlet implementation class RemoveBookServlet
@@ -35,6 +36,11 @@ public class RemoveBookServlet extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		//getServletContext().getRequestDispatcher("/WEB-INF/pages/MyBooks.jsp").forward(request, response);
 		//messages is used to display messages to the user based on the result of the book removal
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null) {
+			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
+			return;
+		}
 		Map<String, String> messages = new HashMap<String, String>();
 		request.setAttribute("messages", messages);
 		DatabaseWriter writer = new DatabaseWriter();

@@ -1,6 +1,9 @@
 <%@page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" import="models.*" import="database.*"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="database.DatabaseReader"%>
+<jsp:useBean id="dbr" class="database.DatabaseReader" />
+
 <!DOCTYPE html>
 <html>
 <head>

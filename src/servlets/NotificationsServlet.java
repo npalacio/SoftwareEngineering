@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.User;
+
 /**
  * Servlet implementation class NotificationsServlet
  */
@@ -26,6 +28,11 @@ public class NotificationsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null) {
+			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
+			return;
+		}
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/Notifications.jsp").forward(request, response);
 	}
 

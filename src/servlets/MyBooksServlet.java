@@ -35,7 +35,12 @@ public class MyBooksServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		setDatabaseReader(request);
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null) {
+			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
+			return;
+		}
+		setDatabaseReader(request, user);
 		//The column attribute would have been put in the query string when the user picks a column
 		//The column attribute is used in the query to the database to select how to order the books returned
 		request.setAttribute("column", request.getParameter("col"));
@@ -49,8 +54,8 @@ public class MyBooksServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	private void setDatabaseReader(HttpServletRequest request){
-		User user = new User("npalacio", "fakePassword");
+	private void setDatabaseReader(HttpServletRequest request, User user){
+//		User user = new User("npalacio", "fakePassword");
 		request.setAttribute("user", user);
 		DatabaseReader dbr = new DatabaseReader();
 		request.setAttribute("dbr", dbr);
