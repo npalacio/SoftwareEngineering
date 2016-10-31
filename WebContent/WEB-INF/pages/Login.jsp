@@ -26,15 +26,15 @@
 				<c:if test="${!messages.result.isEmpty() && messages.result != null}">
 					<span class="text-danger">${messages.result}</span>
 				</c:if>
-				<div class="form-group">
+				<div class="form-group text-center">
 					<label>Username</label> <input type="text" name="username"
 						class="form-control">
 				</div>
-				<div class="form-group">
-					<label>Password</label><input type="text" name="password"
+				<div class="form-group text-center">
+					<label>Password</label><input type="password" name="password"
 						class="form-control">
 				</div>
-				<input type="submit" value="Login" class="btn btn-default">
+				<input type="submit" value="Login" class="btn btn-default center-block">
 			</form>
 		</div>
 	</div>

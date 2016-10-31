@@ -46,22 +46,14 @@ public class AddBookServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		setReader(request);
+		//Used to display error/success messages to the user
 		Map<String, String> messages = new HashMap<String, String>();
 		request.setAttribute("messages", messages);
 		addBook(request, messages, getBookToAdd(request, messages));
 		request.setAttribute("isPost", true);
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/AddBook.jsp").forward(request, response);
-		//getServletContext().getRequestDispatcher("/WEB-INF/pages/MyBooks.jsp").forward(request, response);
 	}
-	
-	private void setReader(HttpServletRequest request){
-		User user = new User("npalacio", "fakePassword");
-		request.setAttribute("user", user);
-		DatabaseReader dbr = new DatabaseReader();
-		request.setAttribute("dbr", dbr);
-	}
-	
+		
 	private void addBook(HttpServletRequest request, Map<String, String> messages, Book book) {
 		boolean result = false;
 		//System.out.println("Book title: " + book.getTitle());
@@ -96,12 +88,10 @@ public class AddBookServlet extends HttpServlet {
 		if(!request.getParameter("title").isEmpty()){
 			title = request.getParameter("title");
 			request.setAttribute("title", title);
-			//System.out.println("Title is not null: " + title);
 		} else {
 			messages.put("title", "Title for book is required");
 			validData = false;
 		}
-		//System.out.println(title);
 		if(!request.getParameter("author").isEmpty()){
 			author = request.getParameter("author");
 			request.setAttribute("author", author);
@@ -120,8 +110,6 @@ public class AddBookServlet extends HttpServlet {
 			year = Integer.parseInt(request.getParameter("year"));
 			request.setAttribute("year", year);
 		} catch(NumberFormatException e) {
-			//e.printStackTrace();
-			//System.out.println("Year not in valid format");
 			messages.put("year", "Year is required and must be numeric");
 			validData = false;
 		}
@@ -129,22 +117,17 @@ public class AddBookServlet extends HttpServlet {
 			isbn = Long.parseLong(request.getParameter("isbn"));
 			request.setAttribute("isbn", isbn);
 		} catch(NumberFormatException e) {
-			//e.printStackTrace();
-			System.out.println("ISBN not in valid format");
 			messages.put("isbn", "ISBN is required and must be numeric");
 			validData = false;
 		}
-		//Creating new user everytime for testing/developing purposes, normally user variable should be retrieved from session
-		//User user = (User) request.getSession().getAttribute("user");
-		User user = new User("npalacio", "fakePassword");
-		//System.out.println("Username = " + user.getName());
-		//TODO: Add checkbox to form so the person can decide if this book is available or not
+		User user = (User) request.getSession().getAttribute("user");
 		if(user == null){
 			messages.put("user", "User could not be retrieved from session");
 			validData = false;
 		}
+		boolean available = "available".equals(request.getParameter("isAvailable"));
 		if(validData){
-			return new Book(user, title, author, publisher, year, isbn, true);
+			return new Book(user, title, author, publisher, year, isbn, available);
 		} else {
 			return null;
 		}

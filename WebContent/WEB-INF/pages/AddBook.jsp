@@ -85,6 +85,9 @@
 							<span class="text-danger">*${messages.isbn}</span>
 						</c:if>
 					</div>
+					<div class="form-group">
+						<label>Available</label><input type="checkbox" class="checkbox" name="isAvailable" value="available" checked>
+					</div>
 					<input type="submit" value="Add Book" class="btn btn-default">
 				</form>
 				<c:if test="${isPost && success}">
