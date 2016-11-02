@@ -1,0 +1,50 @@
+package servlets;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import database.DatabaseReader;
+import models.User;
+
+/**
+ * Servlet implementation class HomeServlet
+ */
+@WebServlet("/Trade")
+public class TradeServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public TradeServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	User user = (User) request.getSession().getAttribute("user");
+		if(user == null) {
+			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
+			return;
+		}
+    	getServletContext().getRequestDispatcher("/WEB-INF/pages/Trade.jsp").forward(request, response);
+    }
+    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+    
+    private void setDatabaseReader(HttpServletRequest request, User user){
+//		User user = new User("npalacio", "fakePassword");
+		request.setAttribute("user", user);
+		DatabaseReader dbr = new DatabaseReader();
+		request.setAttribute("dbr", dbr);
+	}
+    
+}

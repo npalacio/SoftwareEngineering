@@ -54,7 +54,8 @@
 							<td>${book.getPublisher()}</td>
 							<td>${book.getYear()}</td>
 							<td>${book.getISBN()}</td>
-							<td class="text-primary"><button>Trade</button>&nbsp;
+							<td class="text-primary"><a
+								href="${pageContext.request.contextPath}/Trade?id=${book.getId()}"><button>Trade</button></a>&nbsp;
 								<button>Purchase</button></td>
 						</tr>
 					</c:forEach>
