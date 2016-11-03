@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.DatabaseReader;
+import models.Book;
+import models.Trade;
 import models.User;
 
 /**
@@ -32,6 +34,17 @@ public class TradeServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
 			return;
 		}
+		//setDatabaseReader(request, user);
+		request.setAttribute("user", user);
+		DatabaseReader dbr = new DatabaseReader();
+		request.setAttribute("dbr", dbr);
+		request.setAttribute("column", request.getParameter("col"));
+		dbr.getAvailableBooks(request.getParameter("col"));
+		Book SenderBook = dbr.findBook(Integer.parseInt(request.getParameter("id")));
+		User SenderUser = SenderBook.getOwner();
+		Trade trade = new Trade(SenderUser, user, SenderBook, null);
+		request.setAttribute("trade", trade);
+		
     	getServletContext().getRequestDispatcher("/WEB-INF/pages/Trade.jsp").forward(request, response);
     }
     
@@ -42,9 +55,9 @@ public class TradeServlet extends HttpServlet {
     
     private void setDatabaseReader(HttpServletRequest request, User user){
 //		User user = new User("npalacio", "fakePassword");
-		request.setAttribute("user", user);
-		DatabaseReader dbr = new DatabaseReader();
-		request.setAttribute("dbr", dbr);
+		
+		
+		
 	}
     
 }

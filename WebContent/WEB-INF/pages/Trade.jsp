@@ -32,7 +32,34 @@
 		</div>
 	</nav>
 	<h2>Start A Trade</h2>
-	<c:out value="${param.id}" />
+	<!--<c:out value="${dbr.getAvailableBooks(column)[param.id].getTitle()}" />
+	<c:import var="book" url="/WEB-INF/pages/Home.jsp"/>
+	<c:out value="${requestScope.book.getTitle()}"/>-->
+	<br/>
+	<h3>Book you will receive: </h3>
+	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<table class="table table-bordered table-condensed table-striped">
+					<tr>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Title">Title</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Author">Author</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Publisher">Publisher</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Year">Year</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=ISBN">ISBN</a></strong></td>
+					</tr>
+					<tr class="text">
+						<td><c:out value="${trade.getSenderBook().getTitle()}"/><td/>
+						<td><c:out value="${trade.getSenderBook().getAuthor()}"/><td/>
+						<td><c:out value="${trade.getSenderBook().getPublisher()}"/><td/>
+						<td><c:out value="${trade.getSenderBook().getYear()}"/><td/>
+						<td><c:out value="${trade.getSenderBook().getISBN()}"/><td/>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 	
 	<div class="footer text-muted">
 		<p>Books Out For Harambe, BOFH&copy; 2016</p>

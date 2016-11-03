@@ -11,9 +11,9 @@ import models.Book;
 import models.User;
 
 public class DatabaseReader {
+	private List<Book> books;
 	
-	
-	public static List<Book> getAvailableBooks(String columnToSortBy){
+	public List<Book> getAvailableBooks(String columnToSortBy){
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement ps2 = null;
@@ -75,7 +75,17 @@ public class DatabaseReader {
 		Database.disposePS(ps);
 		Database.disposePS(ps2);
 		Database.disposeConn(conn);
+		books = availableBooks;
 		return availableBooks;
+	}
+	
+	public Book findBook(int id) {
+		for(Book b : books) {
+			if(b.getId() == id) {
+				return b;
+			}
+		}
+		return null;
 	}
 	
 	public List<Book> getMyBooks(User owner, String columnToSortBy){
