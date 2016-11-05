@@ -34,12 +34,10 @@ public class TradeServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
 			return;
 		}
-		//setDatabaseReader(request, user);
-		request.setAttribute("user", user);
+		
 		DatabaseReader dbr = new DatabaseReader();
 		request.setAttribute("dbr", dbr);
 		request.setAttribute("column", request.getParameter("col"));
-		dbr.getAvailableBooks(request.getParameter("col"));
 		Book SenderBook = dbr.findBook(Integer.parseInt(request.getParameter("id")));
 		User SenderUser = SenderBook.getOwner();
 		Trade trade = new Trade(SenderUser, user, SenderBook, null);
@@ -51,13 +49,6 @@ public class TradeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-	}
-    
-    private void setDatabaseReader(HttpServletRequest request, User user){
-//		User user = new User("npalacio", "fakePassword");
-		
-		
-		
 	}
     
 }

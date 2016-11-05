@@ -11,7 +11,6 @@ import models.Book;
 import models.User;
 
 public class DatabaseReader {
-	private List<Book> books;
 	
 	public List<Book> getAvailableBooks(String columnToSortBy){
 		Connection conn = null;
@@ -75,17 +74,50 @@ public class DatabaseReader {
 		Database.disposePS(ps);
 		Database.disposePS(ps2);
 		Database.disposeConn(conn);
-		books = availableBooks;
 		return availableBooks;
 	}
 	
 	public Book findBook(int id) {
-		for(Book b : books) {
-			if(b.getId() == id) {
-				return b;
-			}
+		Connection conn = null;
+		PreparedStatement ps = null;
+		PreparedStatement ps2 = null;
+		Book book = null;
+		User user = null;
+		int ownerID = 0;
+		int year = 0;
+		long ISBN = 0;
+		String title, author, publisher = null;
+		try {
+			conn = Database.getConnection();
+			String sql = "SELECT OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE ID = " + id + ";";
+			ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			
+			ownerID = rs.getInt("OwnerID");
+			year = rs.getInt("Year");
+			ISBN = rs.getLong("ISBN");
+			title = rs.getString("Title");
+			author = rs.getString("Author");
+			publisher = rs.getString("Publisher");
+			
+			
+			sql = "SELECT Username, Password FROM Users WHERE ID = " + ownerID + ";";
+			ps2 = conn.prepareStatement(sql);
+			ResultSet rs2 = ps2.executeQuery();
+			rs2.next();
+			user = new User(rs2.getString("Username"), rs2.getString("Password"));
+			rs2.close();
+			rs.close();
+			
+			book = new Book(id, user, title, author, publisher, year, ISBN, true);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return null;
+		Database.disposePS(ps);
+		Database.disposePS(ps2);
+		Database.disposeConn(conn);
+		return book;
 	}
 	
 	public List<Book> getMyBooks(User owner, String columnToSortBy){

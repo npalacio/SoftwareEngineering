@@ -32,9 +32,7 @@
 		</div>
 	</nav>
 	<h2>Start A Trade</h2>
-	<!--<c:out value="${dbr.getAvailableBooks(column)[param.id].getTitle()}" />
-	<c:import var="book" url="/WEB-INF/pages/Home.jsp"/>
-	<c:out value="${requestScope.book.getTitle()}"/>-->
+	
 	<br/>
 	<h3>Book you will receive: </h3>
 	
@@ -43,19 +41,65 @@
 			<div class="col-md-10 col-md-offset-1">
 				<table class="table table-bordered table-condensed table-striped">
 					<tr>
-						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Title">Title</a></strong></td>
-						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Author">Author</a></strong></td>
-						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Publisher">Publisher</a></strong></td>
-						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Year">Year</a></strong></td>
-						<td><strong><a href="${pageContext.request.contextPath}/Home?col=ISBN">ISBN</a></strong></td>
+						<td ><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Title">Title</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Author">Author</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Publisher">Publisher</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Year">Year</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=ISBN">ISBN</a></strong></td>
 					</tr>
 					<tr class="text">
-						<td><c:out value="${trade.getSenderBook().getTitle()}"/><td/>
-						<td><c:out value="${trade.getSenderBook().getAuthor()}"/><td/>
-						<td><c:out value="${trade.getSenderBook().getPublisher()}"/><td/>
-						<td><c:out value="${trade.getSenderBook().getYear()}"/><td/>
-						<td><c:out value="${trade.getSenderBook().getISBN()}"/><td/>
+						<td class="italic"><c:out value="${trade.getSenderBook().getTitle()}"/></td>
+						<td><c:out value="${trade.getSenderBook().getAuthor()}"/></td>
+						<td><c:out value="${trade.getSenderBook().getPublisher()}"/></td>
+						<td><c:out value="${trade.getSenderBook().getYear()}"/></td>
+						<td><c:out value="${trade.getSenderBook().getISBN()}"/></td>
 					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<h3>Select a Book to Send: </h3>
+	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-offset-1">
+				<c:if test="${!messages.result.isEmpty() && messages.result.contains('succeeded')}">
+					<span class="text-danger">${messages.result}</span>
+				</c:if>
+				<c:if test="${!messages.result.isEmpty() && messages.result.contains('failed')}">
+					<span class="text-danger">${messages.user}</span>
+				</c:if>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<table class="table table-bordered table-condensed table-striped">
+					<tr>
+						<td><strong><a
+								href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Title">Title</a></strong></td>
+						<td><strong><a
+								href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Author">Author</a></strong></td>
+						<td><strong><a
+								href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Publisher">Publisher</a></strong></td>
+						<td><strong><a
+								href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Year">Year</a></strong></td>
+						<td><strong><a
+								href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=ISBN">ISBN</a></strong></td>
+					</tr>
+					<c:forEach items="${dbr.getMyBooks(user, column)}" var="book">
+					
+						<tr class="text">
+							<td class="italic">${book.getTitle()}</td>
+							<td>${book.getAuthor()}</td>
+							<td>${book.getPublisher()}</td>
+							<td>${book.getYear()}</td>
+							<td>${book.getISBN()}</td>
+							<td class="text-primary"><a
+								href="${pageContext.request.contextPath}/MyBooks"><button>Send</button></a>
+							</td>
+						</tr>
+					</c:forEach>
 				</table>
 			</div>
 		</div>
