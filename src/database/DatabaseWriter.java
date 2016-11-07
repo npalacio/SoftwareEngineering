@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import models.Book;
+import models.Trade;
 import models.User;
 
 public class DatabaseWriter {
@@ -82,6 +83,120 @@ public class DatabaseWriter {
 			ps.setBoolean(7, isAvailable);
 			ps.executeUpdate();
 			rs.close();
+			//System.out.println("Done");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		Database.disposePS(ps);
+		Database.disposeConn(conn);
+		return true;
+	}
+	
+	//Method to insert a trade into the database
+	public boolean addTrade(Trade trade){
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int senderID = 0;
+		String senderUsername = trade.getSender().getName();
+		int receiverID = 0;
+		String receiverUsername = trade.getRecipient().getName();
+		int senderBookID = trade.getSenderBook().getId();
+		int receiverBookID = trade.getRecipientBook().getId();
+		boolean accepted = trade.isAccepted();
+		try{
+			//Open a connection
+			//System.out.println("Connecting to database...");
+			conn = Database.getConnection();
+
+			//System.out.println("Connected to database...");
+
+			//Execute a query
+			//System.out.println("Creating statement...");
+			String sql = "SELECT ID FROM Users WHERE Username = ?";
+			ResultSet rs = null;
+			ps = conn.prepareStatement(sql);
+			//Get sender user id and receiver user id
+			ps.setString(1, senderUsername);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				senderID = rs.getInt("ID");
+			} else {
+				//System.out.println("No OwnerID returned in addTrade, exiting method");
+				return false;
+			}
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, receiverUsername);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				receiverID = rs.getInt("ID");
+			} else {
+				//System.out.println("No OwnerID returned in addTrade, exiting method");
+				return false;
+			}
+			sql = "INSERT INTO Trades (SenderID, ReceiverID, SenderBookID, ReceiverBookID, Accepted) VALUES (?, ?, ?, ?, ?)";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, senderID);
+			ps.setInt(2, receiverID);
+			ps.setInt(3, senderBookID);
+			ps.setInt(4, receiverBookID);
+			ps.setBoolean(5, accepted);
+			ps.executeUpdate();
+			rs.close();
+			//System.out.println("Done");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		Database.disposePS(ps);
+		Database.disposeConn(conn);
+		return true;
+	}
+	
+	//Add method to update trade to accepted or not
+	//If a trade is accepted or rejected we are going to remove it from the database no matter what
+	//For now we will not do anything other than remove the trade, in the future we should implement a way to notify the
+	//person who proposed the trade that it was accepted/rejected
+	public boolean respondToTrade(Trade trade){
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int senderID = 0;
+		String senderUsername = trade.getSender().getName();
+		int receiverID = 0;
+		String receiverUsername = trade.getRecipient().getName();
+		int senderBookID = trade.getSenderBook().getId();
+		int receiverBookID = trade.getRecipientBook().getId();
+		try{
+			conn = Database.getConnection();
+			String sql = "SELECT ID FROM Users WHERE Username = ?";
+			ResultSet rs = null;
+			ps = conn.prepareStatement(sql);
+			//Get sender user id and receiver user id
+			ps.setString(1, senderUsername);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				senderID = rs.getInt("ID");
+			} else {
+				System.out.println("No OwnerID returned in addTrade, exiting method");
+				return false;
+			}
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, receiverUsername);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				receiverID = rs.getInt("ID");
+			} else {
+				System.out.println("No OwnerID returned in addTrade, exiting method");
+				return false;
+			}
+			sql = "DELETE FROM Trades WHERE SenderID = ? AND ReceiverID = ? AND SenderBookID = ? AND ReceiverBookID = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, senderID);
+			ps.setInt(2, receiverID);
+			ps.setInt(3, senderBookID);
+			ps.setInt(4, receiverBookID);
+			ps.executeUpdate();
+			rs.close();
 			System.out.println("Done");
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -92,14 +207,21 @@ public class DatabaseWriter {
 		return true;
 	}
 	
-	
 	//Main method for testing purposes
 	public static void main(String args[]){
-		User user = new User("npalacio", "fakePassword");
+		User user1 = new User("shannon", "password");
+		User user2 = new User("jstein", "doe");
+		DatabaseReader dbr = new DatabaseReader();
 //		for(Book book : getMyBooks(user)){
 //			System.out.println("Books owned by npalacio: " + book.getTitle());
 //		}
-		Book book = new Book(0, user, "New Book", "Smith, William", "New Publisher", 1990, 8934736984723L, true);
+//		Book book = new Book(0, user, "New Book", "Smith, William", "New Publisher", 1990, 8934736984723L, true);
+		Book senderBook = dbr.findBook(5);
+		System.out.println("Sender book = " + senderBook.getTitle());
+		Book receiverBook = dbr.findBook(8);
+		System.out.println("Receiver book = " + receiverBook.getTitle());
+		Trade trade = new Trade(user1, user2, senderBook, receiverBook);
+		//respondToTrade(trade);
 		//deleteBook(book);
 		//addBook(book);
 	}
