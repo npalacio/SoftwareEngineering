@@ -35,7 +35,7 @@
 			</ul>
 		</div>
 	</nav>
-	<h3>Welcome, User!</h3>
+	<h3>Welcome, <c:out value="${username}"/></h3>
 	<h5>Here are the books available for purchasing/trading today:</h5>
 	<div class="container-fluid">
 		<div class="row">

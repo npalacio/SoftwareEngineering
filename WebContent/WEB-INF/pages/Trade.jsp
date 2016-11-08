@@ -95,7 +95,7 @@
 							<td>${book.getPublisher()}</td>
 							<td>${book.getYear()}</td>
 							<td>${book.getISBN()}</td>
-							<td class="text-primary"><a
+							<td class="text-primary btn btn-sm"><a
 								href="${pageContext.request.contextPath}/MyBooks"><button>Send</button></a>
 							</td>
 						</tr>

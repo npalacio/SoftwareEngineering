@@ -38,10 +38,10 @@ public class HomeServlet extends HttpServlet {
 		}
 		HttpSession session = request.getSession();
 		//Since we still do not have a login page we will hardcode a user in that can be passed around for the other servlets to use
-		User debuggingUser = new User("npalacio", "fakePassword");
-		session.setAttribute("user", debuggingUser);
+		session.setAttribute("user", user);
 		//The jsp page creates the database reader
 		request.setAttribute("column", request.getParameter("col"));
+		request.setAttribute("username", user.getName());
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/Home.jsp").forward(request, response);
 	}
 

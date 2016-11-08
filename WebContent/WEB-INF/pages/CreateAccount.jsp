@@ -20,9 +20,10 @@
 		</center>
 	</div>
 	<h2 class="text-center">Books Out For Harambe&copy;</h2>
+	<h3 class="text-center">Create Account:</h3>
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4 text-center">
-			<form role="form" method="post" action="${pageContext.request.contextPath}/Login">
+			<form role="form" method="post" action="${pageContext.request.contextPath}/CreateAccount">
 				<c:if test="${!messages.result.isEmpty() && messages.result != null}">
 					<span class="text-danger">${messages.result}</span>
 				</c:if>
@@ -34,10 +35,9 @@
 					<label>Password</label><input type="password" name="password"
 						class="form-control">
 				</div>
-				<input type="submit" value="Login" class="btn btn-default center-block">
+				<input type="submit" value="Submit" class="btn btn-default center-block">
 			</form>
 			<br/>
-			<a href="${pageContext.request.contextPath}/CreateAccount">New? Create an account</a>
 		</div>
 	</div>
 	<div class="footer text-muted">

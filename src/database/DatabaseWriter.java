@@ -207,20 +207,44 @@ public class DatabaseWriter {
 		return true;
 	}
 	
+	//Method to insert a trade into the database
+	public boolean addUser(User user){
+		Connection conn = null;
+		PreparedStatement ps = null;
+		String username = user.getName();
+		String password = user.getPassword();
+		try{
+			conn = Database.getConnection();
+			String sql = "INSERT INTO Users (Username, Password) VALUES (?, ?)";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, username);
+			ps.setString(2, password);
+			ps.executeUpdate();
+			//System.out.println("Done");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		Database.disposePS(ps);
+		Database.disposeConn(conn);
+		return true;
+	}
+	
 	//Main method for testing purposes
 	public static void main(String args[]){
-		User user1 = new User("shannon", "password");
-		User user2 = new User("jstein", "doe");
-		DatabaseReader dbr = new DatabaseReader();
+		User user1 = new User("jacob", "smith");
+		User user2 = new User("person", "human");
+//		DatabaseReader dbr = new DatabaseReader();
 //		for(Book book : getMyBooks(user)){
 //			System.out.println("Books owned by npalacio: " + book.getTitle());
 //		}
 //		Book book = new Book(0, user, "New Book", "Smith, William", "New Publisher", 1990, 8934736984723L, true);
-		Book senderBook = dbr.findBook(5);
-		System.out.println("Sender book = " + senderBook.getTitle());
-		Book receiverBook = dbr.findBook(8);
-		System.out.println("Receiver book = " + receiverBook.getTitle());
-		Trade trade = new Trade(user1, user2, senderBook, receiverBook);
+//		Book senderBook = dbr.findBook(5);
+//		System.out.println("Sender book = " + senderBook.getTitle());
+//		Book receiverBook = dbr.findBook(8);
+//		System.out.println("Receiver book = " + receiverBook.getTitle());
+//		Trade trade = new Trade(user1, user2, senderBook, receiverBook);
+		//addUser(user2);
 		//respondToTrade(trade);
 		//deleteBook(book);
 		//addBook(book);

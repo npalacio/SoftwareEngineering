@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import database.DatabaseReader;
+import database.DatabaseWriter;
 import models.User;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class CreateAccountServlet
  */
-@WebServlet("/Login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/CreateAccount")
+public class CreateAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public CreateAccountServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,36 +32,31 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/pages/CreateAccount.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
 		Map<String, String> messages = new HashMap<String, String>();
 		request.setAttribute("messages", messages);
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		if(username.isEmpty() || password.isEmpty()){
 			messages.put("result", "*Username and Password are required");
-			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/pages/CreateAccount.jsp").forward(request, response);
 			return;
 		}
 		User user = new User(username, password);
-		DatabaseReader db = new DatabaseReader();
-		if(db.isValidUser(user)){
+		DatabaseWriter dbw = new DatabaseWriter();
+		if(dbw.addUser(user)){
 			request.getSession().setAttribute("user", user);
-			request.setAttribute("username", user.getName());
 			getServletContext().getRequestDispatcher("/WEB-INF/pages/Home.jsp").forward(request, response);
 			return;
 		} else {
-			messages.put("result", "*Username or Password are incorrect");
-			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
+			messages.put("result", "Unable to add new user at this time!");
+			getServletContext().getRequestDispatcher("/WEB-INF/pages/CreateAccount.jsp").forward(request, response);
 			return;
 		}
 	}
