@@ -1,6 +1,7 @@
 <%@page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" import="models.*" import="database.*"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!-- I moved the declaration of the database reader to the jsp page here because the login page needs to 
      redirect to this page if they login right and this page needs a database reader object to populate the list -->
@@ -46,6 +47,7 @@
 						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Publisher">Publisher</a></strong></td>
 						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Year">Year</a></strong></td>
 						<td><strong><a href="${pageContext.request.contextPath}/Home?col=ISBN">ISBN</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Price">Price</a></strong></td>
 					</tr>
 					<c:forEach items="${dbr.getAvailableBooks(column)}" var="book">
 					
@@ -55,7 +57,8 @@
 							<td>${book.getPublisher()}</td>
 							<td>${book.getYear()}</td>
 							<td>${book.getISBN()}</td>
-							<td class="text-primary"><a
+							<td><fmt:formatNumber value="${book.getPrice()}" type="currency"/></td>
+							<td class="text-primary btn btn-sm"><a
 								href="${pageContext.request.contextPath}/Trade?id=${book.getId()}"><button>Trade</button></a>&nbsp;
 								<button>Purchase</button></td>
 						</tr>

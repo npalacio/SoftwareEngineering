@@ -21,7 +21,7 @@
 	</div>
 	<h2 class="text-center">Books Out For Harambe&copy;</h2>
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
+		<div class="col-md-4 col-md-offset-4 text-center">
 			<form role="form" method="post" action="${pageContext.request.contextPath}/Login">
 				<c:if test="${!messages.result.isEmpty() && messages.result != null}">
 					<span class="text-danger">${messages.result}</span>
@@ -36,6 +36,8 @@
 				</div>
 				<input type="submit" value="Login" class="btn btn-default center-block">
 			</form>
+			<br/>
+			<a>New? Create an account</a>
 		</div>
 	</div>
 	<div class="footer text-muted">

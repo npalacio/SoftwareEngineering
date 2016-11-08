@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" import="models.*" import="database.*"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,10 +37,12 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-offset-1">
-				<c:if test="${!messages.result.isEmpty() && messages.result.contains('succeeded')}">
+				<c:if
+					test="${!messages.result.isEmpty() && messages.result.contains('succeeded')}">
 					<span class="text-danger">${messages.result}</span>
 				</c:if>
-				<c:if test="${!messages.result.isEmpty() && messages.result.contains('failed')}">
+				<c:if
+					test="${!messages.result.isEmpty() && messages.result.contains('failed')}">
 					<span class="text-danger">${messages.user}</span>
 				</c:if>
 			</div>
@@ -57,15 +61,18 @@
 								href="${pageContext.request.contextPath}/MyBooks?col=Year">Year</a></strong></td>
 						<td><strong><a
 								href="${pageContext.request.contextPath}/MyBooks?col=ISBN">ISBN</a></strong></td>
+						<td><strong><a
+								href="${pageContext.request.contextPath}/MyBooks?col=Price">Price</a></strong></td>
 					</tr>
 					<c:forEach items="${dbr.getMyBooks(user, column)}" var="book">
-					
+
 						<tr class="text">
 							<td class="italic">${book.getTitle()}</td>
 							<td>${book.getAuthor()}</td>
 							<td>${book.getPublisher()}</td>
 							<td>${book.getYear()}</td>
 							<td>${book.getISBN()}</td>
+							<td><fmt:formatNumber value="${book.getPrice()}" type="currency" /></td>
 							<td class="text-primary"><a
 								href="${pageContext.request.contextPath}/RemoveBook?id=${book.getId()}"><button>Remove</button></a>
 							</td>

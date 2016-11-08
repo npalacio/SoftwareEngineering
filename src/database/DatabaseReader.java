@@ -22,6 +22,7 @@ public class DatabaseReader {
 		int ownerID = 0;
 		int year = 0;
 		long ISBN = 0;
+		double price = 0;
 		String title, author, publisher = null;
 		try{
 			//Open a connection
@@ -34,10 +35,10 @@ public class DatabaseReader {
 			//System.out.println("Creating statement...");
 			String sql = null;
 			if(columnToSortBy != null && !columnToSortBy.isEmpty()) {
-				sql = "SELECT ID, OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE IsAvailable = 1 ORDER BY " 
+				sql = "SELECT ID, OwnerID, Title, Author, Publisher, Year, ISBN, Price, IsAvailable FROM Books WHERE IsAvailable = 1 ORDER BY " 
 						+ columnToSortBy + ";";
 			} else {
-				sql = "SELECT ID, OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE IsAvailable = 1 ORDER BY Title;";
+				sql = "SELECT ID, OwnerID, Title, Author, Publisher, Year, ISBN, Price, IsAvailable FROM Books WHERE IsAvailable = 1 ORDER BY Title;";
 			}
 			
 			ResultSet rs, rs2 = null;
@@ -50,6 +51,7 @@ public class DatabaseReader {
 				ownerID = rs.getInt("OwnerID");
 				year = rs.getInt("Year");
 				ISBN = rs.getLong("ISBN");
+				price = rs.getDouble("Price");
 				title = rs.getString("Title");
 				author = rs.getString("Author");
 				publisher = rs.getString("Publisher");
@@ -64,7 +66,7 @@ public class DatabaseReader {
 					user = new User(rs2.getString("Username"), rs2.getString("Password"));
 				}
 				rs2.close();
-				availableBooks.add(new Book(id, user, title, author, publisher, year, ISBN, true));
+				availableBooks.add(new Book(id, user, title, author, publisher, year, ISBN, price, true));
 			}
 			rs.close();
 			
@@ -86,10 +88,11 @@ public class DatabaseReader {
 		int ownerID = 0;
 		int year = 0;
 		long ISBN = 0;
+		double price = 0;
 		String title, author, publisher = null;
 		try {
 			conn = Database.getConnection();
-			String sql = "SELECT OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE ID = " + id + ";";
+			String sql = "SELECT OwnerID, Title, Author, Publisher, Year, ISBN, Price, IsAvailable FROM Books WHERE ID = " + id + ";";
 			ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -97,6 +100,7 @@ public class DatabaseReader {
 			ownerID = rs.getInt("OwnerID");
 			year = rs.getInt("Year");
 			ISBN = rs.getLong("ISBN");
+			price = rs.getDouble("Price");
 			title = rs.getString("Title");
 			author = rs.getString("Author");
 			publisher = rs.getString("Publisher");
@@ -110,7 +114,7 @@ public class DatabaseReader {
 			rs2.close();
 			rs.close();
 			
-			book = new Book(id, user, title, author, publisher, year, ISBN, true);
+			book = new Book(id, user, title, author, publisher, year, ISBN, price, true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -129,6 +133,7 @@ public class DatabaseReader {
 		int ownerID = 0;
 		int year = 0;
 		long ISBN = 0;
+		double price = 0;
 		String title, author, publisher;
 		boolean isAvailable;
 		try{
@@ -151,10 +156,10 @@ public class DatabaseReader {
 				ownerID = rs.getInt("ID");
 			}
 			if(columnToSortBy != null && !columnToSortBy.isEmpty()) {
-				sql = "SELECT ID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE OwnerID = ? ORDER BY " 
+				sql = "SELECT ID, Title, Author, Publisher, Year, ISBN, Price, IsAvailable FROM Books WHERE OwnerID = ? ORDER BY " 
 						+ columnToSortBy + ";";
 			} else {
-				sql = "SELECT ID, Title, Author, Publisher, Year, ISBN, IsAvailable FROM Books WHERE OwnerID = ? ORDER BY Title;";
+				sql = "SELECT ID, Title, Author, Publisher, Year, ISBN, Price, IsAvailable FROM Books WHERE OwnerID = ? ORDER BY Title;";
 			}
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, ownerID);
@@ -166,9 +171,9 @@ public class DatabaseReader {
 				publisher = rs.getString("publisher");
 				year = rs.getInt("Year");
 				ISBN = rs.getLong("ISBN");
+				price = rs.getDouble("Price");
 				isAvailable = rs.getBoolean("IsAvailable");
-				
-				availableBooks.add(new Book(id, user, title, author, publisher, year, ISBN, isAvailable));
+				availableBooks.add(new Book(id, user, title, author, publisher, year, ISBN, price, isAvailable));
 			}
 			rs.close();
 			
