@@ -29,6 +29,7 @@
 		</div>
 	</nav>
 	<h1>This is the notifications page</h1>
+	<h2>Here are your current messages:</h2>
 	<div class="footer text-muted">
 		<p>Books Out For Harambe, BOFH&copy; 2016</p>
 		<p>1110 S 67th St Omaha NE 68182</p>

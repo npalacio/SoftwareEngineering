@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import models.Book;
+import models.Trade;
 import models.User;
 
 public class DatabaseReader {
@@ -213,6 +214,91 @@ public class DatabaseReader {
 		Database.disposeConn(conn);
 		//If the query returned any value, it is a valid user
 		return validatedUsername != null && validatedPassword != null;
+	}
+	
+	public List<Trade> getTradesByReceiver(User receiver){
+		Connection conn = null;
+		Connection conn2 = null;
+		PreparedStatement ps = null;
+		PreparedStatement ps2 = null;
+		List<Trade> trades = new LinkedList<Trade>();
+		Book senderBook = null;
+		Book receiverBook = null;
+		User sender = null;
+		String username = receiver.getName();
+		String password = receiver.getPassword();
+		String senderUsername = null;
+		String senderPassword = null;
+		int userID = 0;
+		int senderID = 0;
+		int senderBookID = 0;
+		int receiverBookID = 0;
+		try{
+			conn = Database.getConnection();
+			//BINARY keyword because case-sensitive comparison only on Password comparison
+			String sql = "SELECT ID FROM Users WHERE BINARY Password = ? AND Username = ?;";
+			ResultSet rs = null;
+			ResultSet rs2 = null;
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, password);
+			ps.setString(2, username);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				userID = rs.getInt("ID");
+			}
+			if(userID == 0) {
+				System.out.println("No userID returned in getTradesByReceiver, returning null");
+				return null;
+			}
+			sql = "SELECT SenderID, SenderBookID, ReceiverBookID FROM Trades WHERE ReceiverID = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(0, userID);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				senderID = rs.getInt("SenderID");
+				senderBookID = rs.getInt("SenderBookID");
+				receiverBookID = rs.getInt("ReceiverBookID");
+				if(senderBookID != 0 && receiverBookID != 0){
+					senderBook = findBook(senderBookID);
+					receiverBook = findBook(receiverBookID);
+					if(senderID != 0) {
+						conn2 = Database.getConnection();
+						sql = "SELECT Username, Password FROM Users WHERE ID = ?;";
+						ps2 = conn2.prepareStatement(sql);
+						ps2.setInt(0, senderID);
+						rs2 = ps2.executeQuery();
+						while(rs2.next()){
+							senderUsername = rs2.getString("Username");
+							senderPassword = rs2.getString("Password");
+						}
+						if(senderUsername != null && senderPassword != null){
+							sender = new User(senderUsername, senderPassword);
+						} else {
+							System.out.println("No sending user returned in getTradesByReceiver, returning current list of trades");
+							return trades;
+						}
+						rs2.close();
+						Database.disposeConn(conn2);
+						Database.disposePS(ps);
+					} else {
+						System.out.println("No senderID user returned in getTradesByReceiver, returning current list of trades");
+						return trades;
+					} if(senderBook != null && receiverBook != null) {
+						trades.add(new Trade(sender, receiver, senderBook, receiverBook));
+					} else {
+						System.out.println("No book returned in get trades by receiver, returning current list of trades");
+						return trades;
+					}
+				}
+			}
+			rs.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		Database.disposeConn(conn);
+		Database.disposePS(ps2);
+		//If the query returned any value, it is a valid user
+		return null;
 	}
 	
 	//Main method for testing purposes
