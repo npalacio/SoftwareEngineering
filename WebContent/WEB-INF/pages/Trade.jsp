@@ -95,8 +95,11 @@
 							<td>${book.getPublisher()}</td>
 							<td>${book.getYear()}</td>
 							<td>${book.getISBN()}</td>
-							<td class="text-primary btn btn-sm"><a
-								href="${pageContext.request.contextPath}/MyBooks"><button>Send</button></a>
+							<td class="text-primary btn btn-sm">
+							<form method="post" action="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}">
+								<input type="hidden" name="sendbook" value="${book.getId()}">
+								<input type="submit" name="send" value="Send">
+							</form>
 							</td>
 						</tr>
 					</c:forEach>

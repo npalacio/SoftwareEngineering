@@ -1,6 +1,5 @@
 package database;
 
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -80,7 +79,7 @@ public class DatabaseReader {
 		return availableBooks;
 	}
 	
-	public static Book findBook(int id) {
+	public Book findBook(int id) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement ps2 = null;
@@ -393,7 +392,7 @@ public class DatabaseReader {
 	//Main method for testing purposes
 //	public static void main(String args[]){
 //		User user = new User("jstein", "stein");
-//		List<Trade> trades = DatabaseReader.getTradesBySender(user);
+//		List<Trade> trades = DatabaseReader.getTradesByReceiver(user);
 //		for(Trade trade : trades){
 //			System.out.println("Trade from " + trade.getSender().getName() + " to " + trade.getRecipient().getName());
 //			System.out.println("\tSBook: " + trade.getSenderBook().getTitle() + ", RBook: " + trade.getRecipientBook().getTitle());

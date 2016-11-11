@@ -67,11 +67,11 @@
 					<c:forEach items="${dbr.getMyBooks(user, column)}" var="book">
 
 						<tr class="text">
-							<td class="italic">${book.getTitle()}</td>
-							<td>${book.getAuthor()}</td>
-							<td>${book.getPublisher()}</td>
-							<td>${book.getYear()}</td>
-							<td>${book.getISBN()}</td>
+							<td class="italic"><c:out value="${book.getTitle()}"/></td>
+							<td><c:out value="${book.getAuthor()}"/></td>
+							<td><c:out value="${book.getPublisher()}"/></td>
+							<td><c:out value="${book.getYear()}"/></td>
+							<td><c:out value="${book.getISBN()}"/></td>
 							<td><fmt:formatNumber value="${book.getPrice()}" type="currency" /></td>
 							<td class="text-primary"><a
 								href="${pageContext.request.contextPath}/RemoveBook?id=${book.getId()}"><button>Remove</button></a>
