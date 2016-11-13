@@ -23,7 +23,7 @@
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4 text-center">
 			<form role="form" method="post" action="${pageContext.request.contextPath}/Login">
-				<c:if test="${!messages.result.isEmpty() && messages.result != null}">
+				<c:if test="${!messages.result.isEmpty() && messages.result.contains('Username')}">
 					<span class="text-danger">${messages.result}</span>
 				</c:if>
 				<div class="form-group text-center">

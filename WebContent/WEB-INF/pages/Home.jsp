@@ -39,6 +39,18 @@
 	<h5>Here are the books available for purchasing/trading today:</h5>
 	<div class="container-fluid">
 		<div class="row">
+			<div class="col-md-offset-1">
+				<c:if
+					test="${!messages.result.isEmpty() && messages.result.contains('Can')}">
+					<span class="text-danger">${messages.result}</span>
+				</c:if>
+				<c:if
+					test="${!messages.result.isEmpty() && messages.result.contains('failed')}">
+					<span class="text-danger">${messages.result}</span>
+				</c:if>
+			</div>
+		</div>
+		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
 				<table class="table table-bordered table-condensed table-striped">
 					<tr>
@@ -60,7 +72,11 @@
 							<td><fmt:formatNumber value="${book.getPrice()}" type="currency"/></td>
 							<td class="text-primary btn btn-sm"><a
 								href="${pageContext.request.contextPath}/Trade?id=${book.getId()}"><button>Trade</button></a>&nbsp;
-								<button>Purchase</button></td>
+								<form method="post" action="${pageContext.request.contextPath}/Home">
+									<input type="hidden" name="purchase" value="${book.getId()}">
+									<input type="submit" name="purchasebutton" value="Purchase">
+								</form>
+							</td>
 						</tr>
 					</c:forEach>
 				</table>

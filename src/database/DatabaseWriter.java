@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import models.Book;
+import models.Purchase;
 import models.Trade;
 import models.User;
 
@@ -231,9 +232,9 @@ public class DatabaseWriter {
 	}
 	
 	//Main method for testing purposes
-	public static void main(String args[]){
-		User user1 = new User("jacob", "smith");
-		User user2 = new User("person", "human");
+//	public static void main(String args[]){
+//		User user1 = new User("jacob", "smith");
+//		User user2 = new User("person", "human");
 //		DatabaseReader dbr = new DatabaseReader();
 //		for(Book book : getMyBooks(user)){
 //			System.out.println("Books owned by npalacio: " + book.getTitle());
@@ -248,5 +249,5 @@ public class DatabaseWriter {
 		//respondToTrade(trade);
 		//deleteBook(book);
 		//addBook(book);
-	}
+//	}
 }

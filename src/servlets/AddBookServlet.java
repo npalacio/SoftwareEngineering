@@ -39,6 +39,8 @@ public class AddBookServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
 			return;
 		}
+		Map<String, String> messages = new HashMap<String, String>();
+		request.setAttribute("messages", messages);
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/AddBook.jsp").forward(request, response);
 	}
 

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import models.Book;
+import models.Purchase;
 import models.Trade;
 import models.User;
 
