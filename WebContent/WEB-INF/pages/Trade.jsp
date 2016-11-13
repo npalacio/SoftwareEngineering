@@ -64,11 +64,8 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-offset-1">
-				<c:if test="${!messages.result.isEmpty() && messages.result.contains('succeeded')}">
+				<c:if test="${!messages.result.isEmpty() && messages.result.contains('trade')}">
 					<span class="text-danger">${messages.result}</span>
-				</c:if>
-				<c:if test="${!messages.result.isEmpty() && messages.result.contains('failed')}">
-					<span class="text-danger">${messages.user}</span>
 				</c:if>
 			</div>
 		</div>
