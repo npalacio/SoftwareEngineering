@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import models.Book;
+import models.Message;
 import models.Purchase;
 import models.Trade;
 import models.User;
@@ -90,6 +91,7 @@ public class DatabaseReader {
 		int year = 0;
 		long ISBN = 0;
 		double price = 0;
+		boolean isAvailable = true;
 		String title, author, publisher = null;
 		try {
 			conn = Database.getConnection();
@@ -105,17 +107,17 @@ public class DatabaseReader {
 			title = rs.getString("Title");
 			author = rs.getString("Author");
 			publisher = rs.getString("Publisher");
+			isAvailable = rs.getBoolean("IsAvailable");
 			
-			
-			sql = "SELECT Username, Password FROM Users WHERE ID = " + ownerID + ";";
+			sql = "SELECT Username, Password FROM Users WHERE ID = ?;";
 			ps2 = conn.prepareStatement(sql);
+			ps2.setInt(1, ownerID);
 			ResultSet rs2 = ps2.executeQuery();
 			rs2.next();
 			user = new User(rs2.getString("Username"), rs2.getString("Password"));
 			rs2.close();
 			rs.close();
-			
-			book = new Book(id, user, title, author, publisher, year, ISBN, price, true);
+			book = new Book(id, user, title, author, publisher, year, ISBN, price, isAvailable);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -376,9 +378,11 @@ public class DatabaseReader {
 							sender = new User(senderUsername, senderPassword);
 						} else {
 							System.out.println("No sending user returned in getTradesByReceiver, returning current list of trades");
+							rs2.close();
 							break;
 							//return trades;
 						}
+						rs2.close();
 					} else {
 						System.out.println("No senderID user returned in getTradesByReceiver, returning current list of trades");
 						break;
@@ -392,7 +396,7 @@ public class DatabaseReader {
 					}
 				}
 			}
-			rs2.close();
+			
 			rs.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -493,6 +497,60 @@ public class DatabaseReader {
 		return trades;
 	}
 	
+	public List<Message> getMessages(User receiver) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		List<Message> messages = new LinkedList<Message>();
+		Message msg = null;
+		String username = receiver.getName();
+		String message = null;
+		int receiverId = 0;
+		int messageId = 0;
+		try{
+			conn = Database.getConnection();
+			//BINARY keyword because case-sensitive comparison only on Password comparison
+			String sql = "SELECT ID FROM Users WHERE Username = ?;";
+			ResultSet rs = null;
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			rs.next();
+			receiverId = rs.getInt("ID");
+			
+			if(receiverId == 0) {
+				System.out.println("No userID returned in getMessages, returning empty list");
+				rs.close();
+				Database.disposePS(ps);
+				Database.disposeConn(conn);
+				return messages;
+			}
+			
+			sql = "SELECT ID, Message FROM Messages WHERE ReceiverID = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, receiverId);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				messageId = rs.getInt("ID");
+				message = rs.getString("Message");
+				if(messageId == 0 || message == null) {
+					System.out.println("No userID returned in getMessages, returning current list");
+					rs.close();
+					Database.disposePS(ps);
+					Database.disposeConn(conn);
+					return messages;
+				}
+				messages.add(new Message(messageId, receiver, message));
+			}
+			rs.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		Database.disposePS(ps);
+		Database.disposeConn(conn);
+		//If the query returned any value, it is a valid user
+		return messages;
+	}
+	
 	//Main method for testing purposes
 	public static void main(String args[]){
 //		User user = new User("jstein", "stein");
@@ -510,5 +568,9 @@ public class DatabaseReader {
 //		System.out.println("Receiver: " + trade.getRecipient().getName());
 //		System.out.println("SenderBook: " + trade.getSenderBook().getTitle());
 //		System.out.println("ReceiverBook: " + trade.getRecipientBook().getTitle());
+//		User receiver = new User("npalacio", "doe");
+//		for(Message msg : getMessages(receiver)){
+//			System.out.println(msg.getMessage());
+//		}
 	}
 }

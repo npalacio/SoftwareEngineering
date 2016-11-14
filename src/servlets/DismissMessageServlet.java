@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import models.User;
 
 /**
- * Servlet implementation class NotificationsServlet
+ * Servlet implementation class DismissMessageServlet
  */
-@WebServlet("/Notifications")
-public class NotificationsServlet extends HttpServlet {
+@WebServlet("/DismissMessageServlet")
+public class DismissMessageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NotificationsServlet() {
+    public DismissMessageServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,13 +28,21 @@ public class NotificationsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		User user = (User) request.getSession().getAttribute("user");
 		if(user == null) {
 			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
 			return;
 		}
-		request.setAttribute("user", user);
-		getServletContext().getRequestDispatcher("/WEB-INF/pages/Notifications.jsp").forward(request, response);
+		int id = 0;
+		id = Integer.parseInt(request.getParameter("id"));
+		if(id == 0) {
+			System.out.println("Id either not given or set as 0 in DismissMessage servlet");
+			getServletContext().getRequestDispatcher("/WEB-INF/pages/Notifications.jsp").forward(request, response);
+			return;
+		}
+		
 	}
 
 	/**
@@ -42,7 +50,7 @@ public class NotificationsServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		doGet(request, response);
+		doGet(request, response);
 	}
 
 }

@@ -62,7 +62,6 @@
 						<td><strong><a href="${pageContext.request.contextPath}/Home?col=Price">Price</a></strong></td>
 					</tr>
 					<c:forEach items="${dbr.getAvailableBooks(column)}" var="book">
-					
 						<tr class="text">
 							<td class="italic"><c:out value="${book.getTitle()}"/></td>
 							<td><c:out value="${book.getAuthor()}"/></td>

@@ -32,6 +32,28 @@
 		</div>
 	</nav>
 	<h1>This is the notifications page</h1>
+	
+	<h2>Messages:</h2>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<table class="table table-bordered table-condensed table-striped">
+				<tr>
+					<td><strong>Message</strong></td>
+				</tr>
+				<c:forEach items="${dbr.getMessages(user)}" var="msg">
+					<tr class="text">
+						<td class="text-warning"><c:out value="${msg.getMessage()}"/></td>
+						<td>
+							<a class="btn btn-md" href="${pageContext.request.contextPath}/DismissMessage?id=${msg.getId()}">
+								<button>Ok</button>
+							</a>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
+	
 	<h2>Trades proposed to you:</h2>
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
@@ -49,13 +71,14 @@
 						<td class="italic"><c:out value="${trade.getSenderBook().getTitle()}"/></td>
 						<td class="italic"><c:out value="${trade.getRecipientBook().getTitle()}"/></td>
 						<td class="text-primary">
-							<a href="${pageContext.request.contextPath}/Notifications?type=trade&result=true&id=${trade.getId()}">
+							<a class="btn btn-sm" href="${pageContext.request.contextPath}/RespondToTrade?result=true&id=${trade.getId()}">
 								<button>Accept</button>
 							</a>
-							<a href="${pageContext.request.contextPath}/Notifications?type=trade&result=false&id=${trade.getId()}">
+						</td>
+						<td>
+							<a class="btn btn-sm" href="${pageContext.request.contextPath}/RespondToTrade?result=false&id=${trade.getId()}">
 								<button>Decline</button>
 							</a>
-							
 						</td>
 					</tr>
 				</c:forEach>

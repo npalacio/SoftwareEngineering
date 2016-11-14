@@ -97,6 +97,7 @@ public class HomeServlet extends HttpServlet {
 				page = "/WEB-INF/pages/Notifications.jsp";
 				if(success) {
 					//Send a message to the seller and the buyer.
+					//In the message state: The user that purchased the book, the name of the book and the price
 				}
 			}
 		} else {

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import models.Book;
+import models.Message;
 import models.Purchase;
 import models.Trade;
 import models.User;
@@ -251,8 +252,62 @@ public class DatabaseWriter {
 		return true;
 	}
 	
+	public boolean addMessage(Message msg){
+		Connection conn = null;
+		PreparedStatement ps = null;
+		String receiverName = msg.getReceiver().getName();
+		String message = msg.getMessage();
+		int receiverID = 0;
+		try{
+			conn = Database.getConnection();
+			String sql = "SELECT ID FROM Users WHERE Username = ?";
+			ResultSet rs = null;
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, receiverName);
+			rs = ps.executeQuery();
+			rs.next();
+			receiverID = rs.getInt("ID");
+			if(receiverID == 0){
+				System.out.println("No OwnerID returned in addMessage, exiting method");
+				return false;
+			}
+			sql = "INSERT INTO Messages (ReceiverID, Message) VALUES (?, ?)";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, receiverID);
+			ps.setString(2, message);
+			ps.executeUpdate();
+			rs.close();
+			//System.out.println("Done");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		Database.disposePS(ps);
+		Database.disposeConn(conn);
+		return true;
+	}
+	
+	public static boolean removeMessage(int msgId) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try{
+			conn = Database.getConnection();
+			String sql = "DELETE FROM Messages WHERE ID = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, msgId);
+			ps.executeUpdate();
+			//System.out.println("Done");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		Database.disposePS(ps);
+		Database.disposeConn(conn);
+		return true;
+	}
+	
 	//Main method for testing purposes
-//	public static void main(String args[]){
+	public static void main(String args[]){
 //		User user1 = new User("jacob", "smith");
 //		User user2 = new User("person", "human");
 //		DatabaseReader dbr = new DatabaseReader();
@@ -269,5 +324,8 @@ public class DatabaseWriter {
 		//respondToTrade(trade);
 		//deleteBook(book);
 		//addBook(book);
-//	}
+//		Message msg = new Message(new User("npalacio", "password"), "This is working");
+//		addMessage(msg);
+		removeMessage(3);
+	}
 }
