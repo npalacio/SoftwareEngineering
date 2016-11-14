@@ -350,6 +350,8 @@ public class DatabaseReader {
 			}
 			if(userID == 0) {
 				System.out.println("No userID returned in getTradesByReceiver, returning empty list");
+				Database.disposePS(ps);
+				Database.disposeConn(conn);
 				return trades;
 			}
 			sql = "SELECT ID, SenderID, SenderBookID, ReceiverBookID FROM Trades WHERE ReceiverID = ?";
@@ -379,20 +381,34 @@ public class DatabaseReader {
 						} else {
 							System.out.println("No sending user returned in getTradesByReceiver, returning current list of trades");
 							rs2.close();
-							break;
-							//return trades;
+							rs.close();
+							Database.disposePS(ps2);
+							Database.disposeConn(conn2);
+							Database.disposePS(ps);
+							Database.disposeConn(conn);
+							//break;
+							return trades;
 						}
 						rs2.close();
+						Database.disposePS(ps2);
+						Database.disposeConn(conn2);
 					} else {
 						System.out.println("No senderID user returned in getTradesByReceiver, returning current list of trades");
-						break;
-						//return trades;
+						//break;
+						Database.disposePS(ps);
+						Database.disposeConn(conn);
+						return trades;
 					} if(senderBook != null && receiverBook != null) {
 						trades.add(new Trade(Id, sender, receiver, senderBook, receiverBook));
 					} else {
 						System.out.println("No book returned in get trades by receiver, returning current list of trades");
-						break;
-						//return trades;
+						//break;
+						rs.close();
+						Database.disposePS(ps2);
+						Database.disposeConn(conn2);
+						Database.disposePS(ps);
+						Database.disposeConn(conn);
+						return trades;
 					}
 				}
 			}
@@ -401,8 +417,6 @@ public class DatabaseReader {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		Database.disposePS(ps2);
-		Database.disposeConn(conn2);
 		Database.disposePS(ps);
 		Database.disposeConn(conn);
 		return trades;
@@ -469,20 +483,38 @@ public class DatabaseReader {
 							receiver = new User(receiverUsername, receiverPassword);
 						} else {
 							System.out.println("No sending user returned in getTradesBySender, returning current list of trades");
-							break;
-							//return trades;
+							//break;
+							rs2.close();
+							rs.close();
+							Database.disposePS(ps2);
+							Database.disposeConn(conn2);
+							Database.disposePS(ps);
+							Database.disposeConn(conn);
+							return trades;
 						}
+						rs2.close();
+						Database.disposePS(ps2);
+						Database.disposeConn(conn2);
 					} else {
 						System.out.println("No senderID user returned in getTradesBySender, returning current list of trades");
-						break;
-						//return trades;
+						//break;
+						rs.close();
+						Database.disposePS(ps);
+						Database.disposeConn(conn);
+						return trades;
 					} if(senderBook != null && receiverBook != null) {
 						trades.add(new Trade(Id, sender, receiver, senderBook, receiverBook));
 					} else {
 						System.out.println("No book returned in getTradesBySender, returning current list of trades");
-						break;
-						//return trades;
+						//break;
+						return trades;
 					}
+				} else {
+					System.out.println("No sender or receiver book Ids returned in getTradesBySender, returning current list");
+					rs.close();
+					Database.disposePS(ps);
+					Database.disposeConn(conn);
+					return trades;
 				}
 			}
 			rs2.close();
@@ -490,8 +522,6 @@ public class DatabaseReader {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		Database.disposePS(ps2);
-		Database.disposeConn(conn2);
 		Database.disposePS(ps);
 		Database.disposeConn(conn);
 		return trades;

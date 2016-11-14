@@ -287,7 +287,7 @@ public class DatabaseWriter {
 		return true;
 	}
 	
-	public static boolean removeMessage(int msgId) {
+	public boolean removeMessage(int msgId) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try{
@@ -326,6 +326,6 @@ public class DatabaseWriter {
 		//addBook(book);
 //		Message msg = new Message(new User("npalacio", "password"), "This is working");
 //		addMessage(msg);
-		removeMessage(3);
+//		removeMessage(3);
 	}
 }

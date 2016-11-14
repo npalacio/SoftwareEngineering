@@ -62,6 +62,11 @@ public class Database {
 			}
 		} else {
 			System.out.println("Attempted to close null connection!");
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -74,6 +79,11 @@ public class Database {
 			}
 		} else {
 			System.out.println("Attempted to close null prepared statement!");
+			try {
+				ps.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

@@ -7,12 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database.DatabaseWriter;
 import models.User;
 
 /**
  * Servlet implementation class DismissMessageServlet
  */
-@WebServlet("/DismissMessageServlet")
+@WebServlet("/DismissMessage")
 public class DismissMessageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -42,7 +43,9 @@ public class DismissMessageServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/WEB-INF/pages/Notifications.jsp").forward(request, response);
 			return;
 		}
-		
+		DatabaseWriter dbw = new DatabaseWriter();
+		dbw.removeMessage(id);
+		getServletContext().getRequestDispatcher("/WEB-INF/pages/Notifications.jsp").forward(request, response);
 	}
 
 	/**
