@@ -154,6 +154,26 @@ public class DatabaseWriter {
 		return true;
 	}
 	
+	public boolean removeTradeById(int Id) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try{
+			conn = Database.getConnection();
+			String sql = "DELETE FROM Trades WHERE ID = ?";
+			ps = conn.prepareStatement(sql);
+			//Get sender user id and receiver user id
+			ps.setInt(1, Id);
+			ps.executeUpdate();
+//			System.out.println("Done");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		Database.disposePS(ps);
+		Database.disposeConn(conn);
+		return true;
+	}
+	
 	//Add method to update trade to accepted or not
 	//If a trade is accepted or rejected we are going to remove it from the database no matter what
 	//For now we will not do anything other than remove the trade, in the future we should implement a way to notify the

@@ -33,6 +33,7 @@ public class NotificationsServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/WEB-INF/pages/Login.jsp").forward(request, response);
 			return;
 		}
+		request.setAttribute("user", user);
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/Notifications.jsp").forward(request, response);
 	}
 

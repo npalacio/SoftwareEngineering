@@ -216,6 +216,105 @@ public class DatabaseReader {
 		return validatedUsername != null && validatedPassword != null;
 	}
 	
+	public Trade findTrade(int Id){
+		Connection conn = null;
+		Connection conn2 = null;
+		PreparedStatement ps = null;
+		PreparedStatement ps2 = null;
+		Trade trade = null;
+		Book senderBook = null;
+		Book receiverBook = null;
+		User sender = null;
+		User receiver = null;
+		String receiverUsername = null;
+		String receiverPassword = null;
+		String senderUsername = null;
+		String senderPassword = null;
+		int userID = 0;
+		int senderID = 0;
+		int receiverID = 0;
+		int senderBookID = 0;
+		int receiverBookID = 0;
+		try{
+			conn = Database.getConnection();
+			String sql = "SELECT ID, SenderID, ReceiverID, SenderBookID, ReceiverBookID FROM Trades WHERE ID = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, Id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				Id = rs.getInt("ID");
+				senderID = rs.getInt("SenderID");
+				senderBookID = rs.getInt("SenderBookID");
+				receiverID = rs.getInt("ReceiverID");
+				receiverBookID = rs.getInt("ReceiverBookID");
+				if(senderBookID != 0 && receiverBookID != 0){
+					senderBook = findBook(senderBookID);
+					receiverBook = findBook(receiverBookID);
+					if(senderID != 0) {
+						conn2 = Database.getConnection();
+						sql = "SELECT Username, Password FROM Users WHERE ID = ?;";
+						ps2 = conn2.prepareStatement(sql);
+						ps2.setInt(1, senderID);
+						ResultSet rs2 = ps2.executeQuery();
+						while(rs2.next()){
+							senderUsername = rs2.getString("Username");
+							senderPassword = rs2.getString("Password");
+						}
+						if(senderUsername != null && senderPassword != null){
+							sender = new User(senderUsername, senderPassword);
+						} else {
+							System.out.println("No sending user returned in getTradesById, returning current list of trades");
+							break;
+							//return trades;
+						}
+						rs2.close();
+					} else {
+						System.out.println("No senderID user returned in getTradesById, returning current list of trades");
+						break;
+						//return trades;
+					} 
+					if(receiverID != 0) {
+						conn2 = Database.getConnection();
+						sql = "SELECT Username, Password FROM Users WHERE ID = ?;";
+						ps2 = conn2.prepareStatement(sql);
+						ps2.setInt(1, receiverID);
+						ResultSet rs2 = ps2.executeQuery();
+						while(rs2.next()){
+							receiverUsername = rs2.getString("Username");
+							receiverPassword = rs2.getString("Password");
+						}
+						if(receiverUsername != null && receiverPassword != null){
+							receiver = new User(receiverUsername, receiverPassword);
+						} else {
+							System.out.println("No receiving user returned in getTradesById, returning current list of trades");
+							break;
+							//return trades;
+						}
+					} else {
+						System.out.println("No receiverID user returned in getTradesById, returning current list of trades");
+						break;
+						//return trades;
+					}if(senderBook != null && receiverBook != null) {
+						trade = new Trade(Id, sender, receiver, senderBook, receiverBook);
+					} else {
+						System.out.println("No book returned in get trades by receiver, returning current list of trades");
+						break;
+						//return trades;
+					}
+				}
+			}
+			rs.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		Database.disposePS(ps2);
+		Database.disposeConn(conn2);
+		Database.disposePS(ps);
+		Database.disposeConn(conn);
+		return trade;
+	}
+
+	
 	public List<Trade> getTradesByReceiver(User receiver){
 		Connection conn = null;
 		Connection conn2 = null;
@@ -229,6 +328,7 @@ public class DatabaseReader {
 		String password = receiver.getPassword();
 		String senderUsername = null;
 		String senderPassword = null;
+		int Id = 0;
 		int userID = 0;
 		int senderID = 0;
 		int senderBookID = 0;
@@ -250,11 +350,12 @@ public class DatabaseReader {
 				System.out.println("No userID returned in getTradesByReceiver, returning empty list");
 				return trades;
 			}
-			sql = "SELECT SenderID, SenderBookID, ReceiverBookID FROM Trades WHERE ReceiverID = ?";
+			sql = "SELECT ID, SenderID, SenderBookID, ReceiverBookID FROM Trades WHERE ReceiverID = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, userID);
 			rs = ps.executeQuery();
 			while(rs.next()){
+				Id = rs.getInt("ID");
 				senderID = rs.getInt("SenderID");
 				senderBookID = rs.getInt("SenderBookID");
 				receiverBookID = rs.getInt("ReceiverBookID");
@@ -283,7 +384,7 @@ public class DatabaseReader {
 						break;
 						//return trades;
 					} if(senderBook != null && receiverBook != null) {
-						trades.add(new Trade(sender, receiver, senderBook, receiverBook));
+						trades.add(new Trade(Id, sender, receiver, senderBook, receiverBook));
 					} else {
 						System.out.println("No book returned in get trades by receiver, returning current list of trades");
 						break;
@@ -316,6 +417,7 @@ public class DatabaseReader {
 		String password = sender.getPassword();
 		String receiverUsername = null;
 		String receiverPassword = null;
+		int Id = 0;
 		int userID = 0;
 		int receiverID = 0;
 		int senderBookID = 0;
@@ -337,11 +439,12 @@ public class DatabaseReader {
 				System.out.println("No userID returned in getTradesBySender, returning empty list");
 				return trades;
 			}
-			sql = "SELECT ReceiverID, SenderBookID, ReceiverBookID FROM Trades WHERE SenderID = ?";
+			sql = "SELECT ID, ReceiverID, SenderBookID, ReceiverBookID FROM Trades WHERE SenderID = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, userID);
 			rs = ps.executeQuery();
 			while(rs.next()){
+				Id = rs.getInt("ID");
 				receiverID = rs.getInt("ReceiverID");
 				senderBookID = rs.getInt("SenderBookID");
 				receiverBookID = rs.getInt("ReceiverBookID");
@@ -370,7 +473,7 @@ public class DatabaseReader {
 						break;
 						//return trades;
 					} if(senderBook != null && receiverBook != null) {
-						trades.add(new Trade(sender, receiver, senderBook, receiverBook));
+						trades.add(new Trade(Id, sender, receiver, senderBook, receiverBook));
 					} else {
 						System.out.println("No book returned in getTradesBySender, returning current list of trades");
 						break;
@@ -391,7 +494,7 @@ public class DatabaseReader {
 	}
 	
 	//Main method for testing purposes
-//	public static void main(String args[]){
+	public static void main(String args[]){
 //		User user = new User("jstein", "stein");
 //		List<Trade> trades = DatabaseReader.getTradesByReceiver(user);
 //		for(Trade trade : trades){
@@ -402,5 +505,10 @@ public class DatabaseReader {
 //			System.out.println("Books owned by npalacio: " + book.getTitle());
 //		}
 //		System.out.println(isValidUser(user));
-//	}
+//		Trade trade = findTrade(1);
+//		System.out.println("Sender: " + trade.getSender().getName());
+//		System.out.println("Receiver: " + trade.getRecipient().getName());
+//		System.out.println("SenderBook: " + trade.getSenderBook().getTitle());
+//		System.out.println("ReceiverBook: " + trade.getRecipientBook().getTitle());
+	}
 }
