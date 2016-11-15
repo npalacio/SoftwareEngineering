@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,6 +88,7 @@ public class AddBookServlet extends HttpServlet {
 		String publisher = null;
 		int year = 0;
 		long isbn = 0;
+		double price = 0;
 		if(!request.getParameter("title").isEmpty()){
 			title = request.getParameter("title");
 			request.setAttribute("title", title);
@@ -122,6 +124,13 @@ public class AddBookServlet extends HttpServlet {
 			messages.put("isbn", "ISBN is required and must be numeric");
 			validData = false;
 		}
+		try{
+			price = Double.parseDouble(request.getParameter("price"));
+			request.setAttribute("price", price);
+		} catch(NumberFormatException e) {
+			messages.put("price", "Price is required and must be numeric");
+			validData = false;
+		}
 		User user = (User) request.getSession().getAttribute("user");
 		if(user == null){
 			messages.put("user", "User could not be retrieved from session");
@@ -129,7 +138,7 @@ public class AddBookServlet extends HttpServlet {
 		}
 		boolean available = "available".equals(request.getParameter("isAvailable"));
 		if(validData){
-			return new Book(user, title, author, publisher, year, isbn, available);
+			return new Book(user, title, author, publisher, year, isbn, price, available);
 		} else {
 			return null;
 		}
@@ -142,5 +151,6 @@ public class AddBookServlet extends HttpServlet {
 		request.setAttribute("publisher", null);
 		request.setAttribute("year", null);
 		request.setAttribute("isbn", null);
+		request.setAttribute("price", null);
 	}
 }

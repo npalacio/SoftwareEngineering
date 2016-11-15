@@ -29,13 +29,14 @@ public class Book {
 
 	//A separate constructor used when adding a book, we do not populate the ID field since this will be populated
 	//automatically when we put it in the database
-	public Book(User owner, String title, String author, String publisher, int year, long isbn, boolean isAvailable) {
+	public Book(User owner, String title, String author, String publisher, int year, long isbn, double price, boolean isAvailable) {
 		this.owner = owner;
 		this.title = title;
 		this.author= author;
 		this.publisher = publisher;
 		this.year = year;
 		this.ISBN = isbn;
+		this.price = price;
 		this.isAvailable = isAvailable;
 	}
 	

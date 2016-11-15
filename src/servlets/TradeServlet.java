@@ -43,9 +43,10 @@ public class TradeServlet extends HttpServlet {
 		DatabaseReader dbr = new DatabaseReader();
 		request.setAttribute("column", request.getParameter("col"));
 		request.setAttribute("dbr", dbr);
-		Book senderBook = dbr.findBook(Integer.parseInt(request.getParameter("id")));
-		User senderUser = senderBook.getOwner();
-		trade = new Trade(senderUser, user, senderBook, null);
+		Book receiverBook = dbr.findBook(Integer.parseInt(request.getParameter("id")));
+		User receiverUser = receiverBook.getOwner();
+		//Whoever is the one sending the trade is the 'sender', had to switch some things around
+		trade = new Trade(user, receiverUser, null, receiverBook);
 		request.setAttribute("trade", trade);
 		
     	getServletContext().getRequestDispatcher("/WEB-INF/pages/Trade.jsp").forward(request, response);
@@ -65,7 +66,7 @@ public class TradeServlet extends HttpServlet {
     	DatabaseReader dbr = new DatabaseReader();
     	DatabaseWriter dbw = new DatabaseWriter();
     	Book recipientBook = dbr.findBook(Integer.parseInt(request.getParameter("sendbook")));
-    	trade.setRecipientBook(recipientBook);
+    	trade.setSenderBook(recipientBook);
     	request.setAttribute("trade", trade);
     	request.setAttribute("column", request.getParameter("col"));
     	request.setAttribute("dbr", dbr);

@@ -41,18 +41,18 @@
 			<div class="col-md-10 col-md-offset-1">
 				<table class="table table-bordered table-condensed table-striped">
 					<tr>
-						<td ><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Title">Title</a></strong></td>
-						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Author">Author</a></strong></td>
-						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Publisher">Publisher</a></strong></td>
-						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=Year">Year</a></strong></td>
-						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getSenderBook().getId()}&col=ISBN">ISBN</a></strong></td>
+						<td ><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getRecipientBook().getId()}&col=Title">Title</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getRecipientBook().getId()}&col=Author">Author</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getRecipientBook().getId()}&col=Publisher">Publisher</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getRecipientBook().getId()}&col=Year">Year</a></strong></td>
+						<td><strong><a href="${pageContext.request.contextPath}/Trade?id=${trade.getRecipientBook().getId()}&col=ISBN">ISBN</a></strong></td>
 					</tr>
 					<tr class="text">
-						<td class="italic"><c:out value="${trade.getSenderBook().getTitle()}"/></td>
-						<td><c:out value="${trade.getSenderBook().getAuthor()}"/></td>
-						<td><c:out value="${trade.getSenderBook().getPublisher()}"/></td>
-						<td><c:out value="${trade.getSenderBook().getYear()}"/></td>
-						<td><c:out value="${trade.getSenderBook().getISBN()}"/></td>
+						<td class="italic"><c:out value="${trade.getRecipientBook().getTitle()}"/></td>
+						<td><c:out value="${trade.getRecipientBook().getAuthor()}"/></td>
+						<td><c:out value="${trade.getRecipientBook().getPublisher()}"/></td>
+						<td><c:out value="${trade.getRecipientBook().getYear()}"/></td>
+						<td><c:out value="${trade.getRecipientBook().getISBN()}"/></td>
 					</tr>
 				</table>
 			</div>

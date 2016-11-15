@@ -517,7 +517,6 @@ public class DatabaseReader {
 					return trades;
 				}
 			}
-			rs2.close();
 			rs.close();
 		} catch(SQLException e) {
 			e.printStackTrace();

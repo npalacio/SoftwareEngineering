@@ -1,5 +1,6 @@
 package database;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,6 +54,7 @@ public class DatabaseWriter {
 		String publisher = book.getPublisher();
 		int year = book.getYear();
 		long isbn = book.getISBN();
+		BigDecimal price = new BigDecimal(book.getPrice());
 		boolean isAvailable = book.isAvailable();
 		try{
 			//Open a connection
@@ -74,7 +76,7 @@ public class DatabaseWriter {
 				System.out.println("No OwnerID returned in deleteBook, exiting method");
 				return false;
 			}
-			sql = "INSERT INTO Books (OwnerID, Title, Author, Publisher, Year, ISBN, IsAvailable) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			sql = "INSERT INTO Books (OwnerID, Title, Author, Publisher, Year, ISBN, Price, IsAvailable) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, ownerID);
 			ps.setString(2, title);
@@ -82,7 +84,8 @@ public class DatabaseWriter {
 			ps.setString(4, publisher);
 			ps.setInt(5, year);
 			ps.setLong(6, isbn);
-			ps.setBoolean(7, isAvailable);
+			ps.setBigDecimal(7, price);
+			ps.setBoolean(8, isAvailable);
 			ps.executeUpdate();
 			rs.close();
 			//System.out.println("Done");

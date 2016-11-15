@@ -59,7 +59,9 @@ public class RespondToTradeServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/WEB-INF/pages/Notifications.jsp").forward(request, response);
 			return;
 		} else {
-			if(result == "true") {
+//			System.out.print("result = " + result);
+			if(result.equals("true")) {
+//				System.out.println("Accepting trade sent by: " + sender.getName() + ", to: " + receiver.getName());
 				//accept trade
 				//Send message to sender of trade that it was accepted
 				msg = receiver.getName() + " has accepted your trade. You will receive '" + trade.getRecipientBook().getTitle() + 
@@ -72,6 +74,7 @@ public class RespondToTradeServlet extends HttpServlet {
 				dbw.deleteBook(trade.getSenderBook().getId());
 				dbw.deleteBook(trade.getRecipientBook().getId());
 			} else {
+//				System.out.println("Declining trade sent by: " + sender.getName() + ", to: " + receiver.getName());
 				//decline trade
 				//Send message to sender of trade that it was declined
 				msg = receiver.getName() + " has declined your trade.";
@@ -79,9 +82,6 @@ public class RespondToTradeServlet extends HttpServlet {
 				dbw.addMessage(message);
 				//Delete trade
 				dbw.removeTradeById(tradeId);
-				//Remove both books from database
-				dbw.deleteBook(trade.getSenderBook().getId());
-				dbw.deleteBook(trade.getRecipientBook().getId());
 			}			
 		}
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/Notifications.jsp").forward(request, response);

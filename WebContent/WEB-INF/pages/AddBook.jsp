@@ -86,6 +86,13 @@
 						</c:if>
 					</div>
 					<div class="form-group">
+						<label>Price:</label><input type="text" name="price" value="${price}"
+							class="form-control">
+						<c:if test="${!messages.price.isEmpty() && messages.price != null}">
+							<span class="text-danger">*${messages.price}</span>
+						</c:if>
+					</div>
+					<div class="form-group">
 						<label>Available</label><input type="checkbox" class="checkbox" name="isAvailable" value="available" checked>
 					</div>
 					<input type="submit" value="Add Book" class="btn btn-default">

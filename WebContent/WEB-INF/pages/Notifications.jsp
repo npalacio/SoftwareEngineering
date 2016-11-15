@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="customCSS/custom.css" />
 </head>
 <body>
+
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -22,27 +23,26 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
-				<li><a href="${pageContext.request.contextPath}/MyBooks">My
-						Books</a></li>
+				<li><a href="${pageContext.request.contextPath}/MyBooks">My Books</a></li>
 				<li><a href="${pageContext.request.contextPath}/AddBook">Add Book</a></li>
 				<li><a href="${pageContext.request.contextPath}/Notifications">Notifications</a></li>
-				<li><a href="${pageContext.request.contextPath}/ContactUs">Contact
-						Us</a></li>
+				<li><a href="${pageContext.request.contextPath}/ContactUs">Contact Us</a></li>
 			</ul>
 		</div>
 	</nav>
-	<h1>This is the notifications page</h1>
 	
-	<h2>Messages:</h2>
+	<c:set var="msgs" scope="request" value="${dbr.getMessages(user)}"/>
+	<c:if test="${!msgs.isEmpty()}">
+	<h2 class="text-center">Messages:</h2>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<table class="table table-bordered table-condensed table-striped">
 				<tr>
 					<td><strong>Message</strong></td>
 				</tr>
-				<c:forEach items="${dbr.getMessages(user)}" var="msg">
+				<c:forEach items="${msgs}" var="msg">
 					<tr class="text">
-						<td class="text-warning"><c:out value="${msg.getMessage()}"/></td>
+						<td class="text-danger"><c:out value="${msg.getMessage()}"/></td>
 						<td>
 							<a class="btn btn-md" href="${pageContext.request.contextPath}/DismissMessage?id=${msg.getId()}">
 								<button>Ok</button>
@@ -53,8 +53,15 @@
 			</table>
 		</div>
 	</div>
+	</c:if>
 	
-	<h2>Trades proposed to you:</h2>
+	<c:if test="${msgs.isEmpty()}">
+		<h2 class="text-center">No Messages to display</h2>
+	</c:if>	
+	
+	<c:set var="myTrades" scope="request" value="${dbr.getTradesByReceiver(user)}"/>
+	<c:if test="${!myTrades.isEmpty()}">
+	<h2 class="text-center">Trades proposed to you:</h2>
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<table class="table table-bordered table-condensed table-striped">
@@ -64,7 +71,7 @@
 					<td><strong>Sender's Book</strong></td>
 					<td><strong>Receiver's Book</strong></td>
 				</tr>
-				<c:forEach items="${dbr.getTradesByReceiver(user)}" var="trade">
+				<c:forEach items="${myTrades}" var="trade">
 					<tr class="text">
 						<td><c:out value="${trade.getSender().getName()}"/></td>
 						<td><c:out value="${trade.getRecipient().getName()}"/></td>
@@ -85,8 +92,15 @@
 			</table>
 		</div>
 	</div>
+	</c:if>
+	
+	<c:if test="${myTrades.isEmpty()}">
+		<h2 class="text-center">No Trades received</h2>
+	</c:if>	
 
-	<h2>Trades you have proposed:</h2>
+	<c:set var="myProposedTrades" scope="request" value="${dbr.getTradesBySender(user)}"/>
+	<c:if test="${!myProposedTrades.isEmpty()}">
+	<h2 class="text-center">Trades you have proposed:</h2>
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<table class="table table-bordered table-condensed table-striped">
@@ -96,7 +110,7 @@
 					<td><strong>Sender's Book</strong></td>
 					<td><strong>Receiver's Book</strong></td>
 				</tr>
-				<c:forEach items="${dbr.getTradesBySender(user)}" var="trade">
+				<c:forEach items="${myProposedTrades}" var="trade">
 					<tr class="text">
 						<td><c:out value="${trade.getSender().getName()}"/></td>
 						<td><c:out value="${trade.getRecipient().getName()}"/></td>
@@ -107,6 +121,12 @@
 			</table>
 		</div>
 	</div>
+	</c:if>
+	
+	<c:if test="${myProposedTrades.isEmpty()}">
+		<h2 class="text-center">No Trades proposed</h2>
+	</c:if>	
+	
 
 	<div class="footer text-muted">
 		<p>Books Out For Harambe, BOFH&copy; 2016</p>

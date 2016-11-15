@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,30 +22,33 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<li><a href="${pageContext.request.contextPath}/Home">Home</a></li>
-				<li><a href="${pageContext.request.contextPath}/MyBooks">My
-						Books</a></li>
-				<li><a href="${pageContext.request.contextPath}/AddBook">Add Book</a></li>
+				<li><a href="${pageContext.request.contextPath}/MyBooks">MyBooks</a></li>
+				<li><a href="${pageContext.request.contextPath}/AddBook">AddBook</a></li>
 				<li><a href="${pageContext.request.contextPath}/Notifications">Notifications</a></li>
-				<li><a href="${pageContext.request.contextPath}/ContactUs">Contact
-						Us</a></li>
+				<li><a href="${pageContext.request.contextPath}/ContactUs">ContactUs</a></li>
 			</ul>
 		</div>
 	</nav>
-	<h1>This is the contact us page</h1>
 
-	<h3>Please feel free leave us a message:</h3>
+	<h2 class="text-center">Please feel free leave us a message:</h2>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-			<form role="form" method="post">
-				<div class="form-group">
-					<label>Subject:</label> <input type="text" name="subject" value=""
-						class="form-control">
-				</div>
+			<form role="form" method="post"
+				action="${pageContext.request.contextPath}/ContactUs">
+				<c:if
+					test="${!messages.success.isEmpty() && messages.success != null}">
+					<span class="text-success">${messages.success}</span>
+				</c:if>
 				<div class="form-group">
 					<label>Message:</label>
 					<textarea rows="4" cols="50" name="message" class="form-control"></textarea>
 				</div>
-				<input type="submit" value="Add Book" class="btn btn-default">
+				<c:if
+					test="${!messages.result.isEmpty() && messages.result != null}">
+					<span class="text-danger">*${messages.result}</span>
+					<br />
+				</c:if>
+				<input type="submit" value="Send" class="btn btn-default">
 			</form>
 		</div>
 	</div>
