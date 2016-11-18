@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import database.DatabaseReader;
 import database.DatabaseWriter;
 import models.Book;
+import models.Message;
 import models.User;
 
 /**
@@ -81,6 +82,7 @@ public class HomeServlet extends HttpServlet {
 		}
 		
 		User seller = reader.findBook(id).getOwner();
+		Book purchasedBook = reader.findBook(id);
 		
 		if(id != 0) {
 			for(Book book : reader.getMyBooks(user, "Title")) {
@@ -96,8 +98,12 @@ public class HomeServlet extends HttpServlet {
 				boolean success = writer.deleteBook(id);
 				page = "/WEB-INF/pages/Notifications.jsp";
 				if(success) {
+					Message m1 = new Message(user, "You have purchased " + purchasedBook.getTitle() + " from " + seller.getName() + " for $" + purchasedBook.getPrice() + ".");
+					Message m2 = new Message(seller, "Your book, " + purchasedBook.getTitle() + ", was purchesed by " + user.getName() + " for $" + purchasedBook.getPrice() + ".");
 					//Send a message to the seller and the buyer.
 					//In the message state: The user that purchased the book, the name of the book and the price
+					writer.addMessage(m1);
+					writer.addMessage(m2);
 				}
 			}
 		} else {
