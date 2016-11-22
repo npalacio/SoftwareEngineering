@@ -45,7 +45,7 @@
 						<td class="text-danger"><c:out value="${msg.getMessage()}"/></td>
 						<td>
 							<a class="btn btn-md" href="${pageContext.request.contextPath}/DismissMessage?id=${msg.getId()}">
-								<button>Ok</button>
+								<button id="ok${msg.getId()}">Ok</button>
 							</a>
 						</td>
 					</tr>
@@ -57,7 +57,7 @@
 	
 	<c:if test="${msgs.isEmpty()}">
 		<h2 class="text-center">No Messages to display</h2>
-	</c:if>	
+	</c:if>
 	
 	<c:set var="myTrades" scope="request" value="${dbr.getTradesByReceiver(user)}"/>
 	<c:if test="${!myTrades.isEmpty()}">
@@ -79,12 +79,12 @@
 						<td class="italic"><c:out value="${trade.getRecipientBook().getTitle()}"/></td>
 						<td class="text-primary">
 							<a class="btn btn-sm" href="${pageContext.request.contextPath}/RespondToTrade?result=true&id=${trade.getId()}">
-								<button>Accept</button>
+								<button id="accept${trade.getId()}">Accept</button>
 							</a>
 						</td>
 						<td>
 							<a class="btn btn-sm" href="${pageContext.request.contextPath}/RespondToTrade?result=false&id=${trade.getId()}">
-								<button>Decline</button>
+								<button id="decline${trade.getId()}">Decline</button>
 							</a>
 						</td>
 					</tr>

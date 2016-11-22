@@ -74,7 +74,7 @@
 							<td><c:out value="${book.getISBN()}"/></td>
 							<td><fmt:formatNumber value="${book.getPrice()}" type="currency" /></td>
 							<td class="text-primary"><a
-								href="${pageContext.request.contextPath}/RemoveBook?id=${book.getId()}"><button>Remove</button></a>
+								href="${pageContext.request.contextPath}/RemoveBook?id=${book.getId()}"><button id="remove${book.getId()}">Remove</button></a>
 							</td>
 						</tr>
 					</c:forEach>

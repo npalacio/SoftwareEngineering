@@ -69,11 +69,11 @@
 							<td><c:out value="${book.getYear()}"/></td>
 							<td><c:out value="${book.getISBN()}"/></td>
 							<td><fmt:formatNumber value="${book.getPrice()}" type="currency"/></td>
-							<td class="text-primary btn btn-sm"><a
-								href="${pageContext.request.contextPath}/Trade?id=${book.getId()}"><button>Trade</button></a>&nbsp;
+							<td class="text-primary btn btn-sm" id="${book.getId()}"><a
+								href="${pageContext.request.contextPath}/Trade?id=${book.getId()}"><button id="trade${book.getId()}">Trade</button></a>&nbsp;
 								<form method="post" action="${pageContext.request.contextPath}/Home">
 									<input type="hidden" name="purchase" value="${book.getId()}">
-									<input type="submit" name="purchasebutton" value="Purchase">
+									<input id="purchase${book.getId()}" type="submit" name="purchasebutton" value="Purchase">
 								</form>
 							</td>
 						</tr>
